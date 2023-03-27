@@ -10,9 +10,12 @@ async function getTripsCount(userId) {
 async function updatePost(id, post) {
 
     const existing = await Post.findById(id)
-    console.log(post);
+
     existing.title = post.title
-    existing.imageUrl = post.imageUrl
+    if (post.imageUrl) {
+
+        existing.imageUrl = post.imageUrl
+    }
     existing.tags = post.tags
     existing.description = post.description
     existing.location = post.location
