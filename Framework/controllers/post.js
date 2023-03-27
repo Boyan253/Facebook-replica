@@ -4,6 +4,7 @@ const router = require('express').Router()
 const User = require('../models/User');
 const { updatePost, deletePost, likePost } = require('../services/post')
 const Chat = require('../models/Chat');
+const mongoose = require('mongoose')
 const multer = require('multer');
 const { isAuthenticated } = require('../middleware/jwt');
 // const GridFsStorage = require('multer-gridfs-storage');
@@ -45,11 +46,11 @@ router.post('/posts', async (req, res) => {
         console.log(error);
     }
 });
-
+//Edit
 router.put('/posts/:postId', async (req, res) => {
     const token = req.headers.authorization;
     if (token == 'undefined') {
-        return res.status(401).json({ message: 'Missing authorization token' });
+        return res.status(401)
     }
     const { location, description, image, owner, ownerName, title, tags } = req.body;
     let imageUrl
@@ -61,15 +62,15 @@ router.put('/posts/:postId', async (req, res) => {
         data = { location, imageUrl, description, title, tags };//polzvai id vmesto username
 
     } else {
-        imageUrl = `https://images.squarespace-cdn.com/content/v1/584fb58a725e254d6b0830a3/1580511138056-M3RVKI1B97QKRX48SKJT/PWB+LOGO+-+TM_White-01.png`
 
         data = { location, imageUrl, description, title, tags };//polzvai id vmesto username
     }
     const id = req.params.postId
 
     try {
-        const result = await updatePost(id, data)
-        res.json({ result })
+        const editResponse = await updatePost(id, data)
+        console.log(editResponse);
+        res.json({ editResponse })
 
     } catch (err) {
         console.log(err);
@@ -130,7 +131,8 @@ router.post('/like/:postId', async (req, res) => {
 router.get('/delete/:postId', async (req, res) => {
     const post = req.params.postId
     try {
-        await deletePost(post)
+        const deletedPost = await deletePost(post)
+        res.json({ deletedPost })
     } catch (err) {
         console.log(err);
     }
@@ -139,15 +141,28 @@ router.get('/delete/:postId', async (req, res) => {
 
 
 router.get('/profile/:userId', async (req, res) => {
+    console.log('going into profile');
+    const id = req.params.userId
     const token = req.headers.authorization;
-    if (token == 'undefined') {
-        return res.status(401).json({ message: 'Missing authorization token' });
-    }
-    const currentUser = await User.findById(req.params.userId)
-    const userPost = await Post.find({ owner: currentUser._id })
-    res.json(userPost)
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid profile' });
 
+    }
+    console.log(token);
+    if (token == 'undefined') {
+        console.log('Missing Auth');
+        return res.status(401)
+    }
+
+    try {
+        const currentUser = await User.findById(id)
+        const userPost = await Post.find({ owner: currentUser._id })
+        res.json(userPost)
+    } catch (error) {
+        res.status(404)
+    }
 })
+
 
 router.get('/', async (req, res) => {
     const userId = req.query.userId
@@ -174,8 +189,14 @@ router.get('/', async (req, res) => {
 
 })
 router.get('/users/:userId', async (req, res) => {
+    console.log('going into profile');
+    const id = req.params.userId
     const token = req.headers.authorization;
-    console.log(token == 'undefined');
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid profile' });
+
+    }
+    console.log(token);
     if (token == 'undefined') {
         return res.status(401).json({ message: 'Missing authorization token' });
     }
