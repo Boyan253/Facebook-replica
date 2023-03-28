@@ -25,7 +25,6 @@ export function Edit({ postEditHandler }) {
                 setPostData(data);
 
                 if (data.owner !== auth._id) {
-                    console.log('da');
                     navigate('/login');
                     return null; // Return null to prevent rendering the form
                 }
@@ -58,7 +57,6 @@ export function Edit({ postEditHandler }) {
 
         postEditHandler(formData, postId)
     };
-    console.log(postData);
 
 
     return (

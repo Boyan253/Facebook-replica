@@ -18,7 +18,6 @@ function App() {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
   const { auth } = useContext(AuthContext)
-  console.log(auth);
   useEffect(() => {
     postService.getAllPosts()
       .then(posts => setPosts(posts)
@@ -82,8 +81,7 @@ function App() {
       reader.readAsDataURL(userData.image);
     } else {
       //TODO edit filltering pravi posledno 27.03.2023:12:27 v chas po IT
-      const editedUser = await postService.editPost(postId, userData, auth).then(response => {
-        console.log(response);
+      await postService.editPost(postId, userData, auth).then(response => {
       })
 
 
@@ -96,8 +94,7 @@ function App() {
   };
   const postDeleteHandler = (postId) => {
     //TODO delete filltering pravi posledno, dovurshi go
-    const deletedPost = postService.deletePost(postId).then(response => {
-      console.log(response);
+    postService.deletePost(postId).then(response => {
       const filteredPosts = posts.filter(post => post._id !== response.deletedPost._id);
       setPosts(filteredPosts);
       // set(filteredUsers);
@@ -119,9 +116,9 @@ function App() {
       <Route path="/logout" element={<Logout></Logout>}></Route>
 
       <Route path="/register" element={<Register></Register>}></Route>
-      <Route path="/chat" element={<ChatPage ></ChatPage>}></Route>
+      <Route path="/chat" element={<RouteGuard><ChatPage ></ChatPage></RouteGuard>}></Route >
       <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
-    </Routes>
+    </Routes >
   )
 
 }

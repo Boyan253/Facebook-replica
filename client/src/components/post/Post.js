@@ -6,13 +6,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Post({ post, user, likePostHandler }) {
   const { isAuthenticated, auth } = useContext(AuthContext)
-  // const [likes, setLikes] = useState(post ? post.likes.length : 0)
-  // const likeHandler = () => {
-  //   setLike(isLiked ? like - 1 : like + 1)
-  //   setIsLiked(!isLiked)
-  // }
+  const [likes, setLikes] = useState(post ? post.likes.length : 0)
+
   let isLiked = false
-  console.log(user);
   const isOwner = post?.owner === auth?._id
   if (!isOwner) {
 
@@ -49,7 +45,7 @@ export default function Post({ post, user, likePostHandler }) {
               <img className="likeIcon" src="assets/heart.png" onClick={(e) => likePostHandler(post?._id, auth._id)} alt="" />
             </>
             }
-            <span className="postLikeCounter">{post?.likes?.length } people like it</span>
+            <span className="postLikeCounter">{likes} people like it</span>
 
           </div>
           <div className="postBottomRight">

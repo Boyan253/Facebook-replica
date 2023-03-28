@@ -13,7 +13,6 @@ export default function Profile({ posts }) {
   const [post, setPost] = useState([])
   const [user, setUser] = useState({ reworkedUser: {} });
   const { auth } = useContext(AuthContext)
-  console.log(auth);
   useEffect(() => {
     let isMounted = true;
     const fetchPost = async () => {

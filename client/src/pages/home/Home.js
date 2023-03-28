@@ -10,7 +10,6 @@ export default function Home({ posts }) {
   const { auth } = useContext(AuthContext)
   const [like, setLike] = useState(0)
   const likePostHandler = (postId, userId) => {
-    console.log(postId, userId);
     const result = fetch(`http://localhost:3005/like/${postId}`, {
       method: 'POST',
       headers: {

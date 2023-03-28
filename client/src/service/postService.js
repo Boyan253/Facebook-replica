@@ -6,6 +6,7 @@ let baseUrl = 'http://localhost:3005/'
 export async function getAllPosts() {
 
     const response = await request.get(`${baseUrl}posts`)
+    console.log(response.posts);
     return response.posts
 }
 

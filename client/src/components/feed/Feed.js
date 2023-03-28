@@ -3,7 +3,6 @@ import Post from "../post/Post";
 import "./feed.css";
 
 export default function Feed({ posts, user, likePostHandler }) {
-  console.log(posts);
   return (
     <div className="feed">
       <div className="feedWrapper">
