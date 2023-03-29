@@ -3,6 +3,14 @@ import Post from "../post/Post";
 import "./feed.css";
 
 export default function Feed({ posts, user, likePostHandler }) {
+  // Comments
+  const getComments = () => {
+
+  }
+
+
+
+
   return (
     <div className="feed">
       <div className="feedWrapper">

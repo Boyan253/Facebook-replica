@@ -81,3 +81,6 @@
   object-fit: cover;
   border-radius: 5px;
 }
+.rightbarFollowingName{
+  text-align: center;
+}

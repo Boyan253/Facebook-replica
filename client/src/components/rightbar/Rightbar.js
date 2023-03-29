@@ -1,8 +1,29 @@
 import "./rightbar.css";
 import { Users } from "../../dummyData";
 import Online from "../online/Online";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { FriendsBar } from "../friendsBar/FriendsBar";
 
-export default function Rightbar({ profile }) {
+export default function Rightbar({ profile, user }) {
+  const [friends, setFriends] = useState([])
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+        if (user.id) {
+          const response = await fetch(`http://localhost:3005/friends/${user.id}`)
+          const friendList = await response.json()
+          setFriends(friendList)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getFriends()
+
+  }, [user?.id])
+
+
   const HomeRightbar = () => {
     return (
       <>
@@ -15,9 +36,8 @@ export default function Rightbar({ profile }) {
         {/* <img className="rightbarAd" src="https://imagesvc.meredithcorp.io/v3/mm/image?q=60&c=sc&poi=%5B900%2C533%5D&w=2000&h=1333&url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F47%2F2021%2F03%2F12%2Fpomeranian-white-puppy-921029690-2000.jpg" alt="" /> */}
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarFriendList">
-          {Users.map((u) => (
-            <Online key={u.id} user={u} />
-          ))}
+          {friends.length > 0 ? friends.map(friend => (< Online key={friend._id} friends={friend} ></Online>)) : <p>No friends yet</p>}
+
         </ul>
       </>
     );
@@ -43,7 +63,7 @@ export default function Rightbar({ profile }) {
         </div>
         <h4 className="rightbarTitle">User friends</h4>
         <div className="rightbarFollowings">
-          <p>No followings yet</p>
+          {friends.length > 0 ? friends.map(friend => (< FriendsBar key={friend._id} friends={friend} ></FriendsBar>)) : <p>No followings yet</p>}
           {/* <div className="rightbarFollowing">
             <img
               src="/assets/person/1.jpeg"

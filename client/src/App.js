@@ -24,9 +24,9 @@ function App() {
       )
   }, [])
 
+
+
   const postCreateHandler = async (formData) => {
-
-
     const userData = {
       title: formData.get('title'),
       location: formData.get('location'),
@@ -36,7 +36,7 @@ function App() {
       owner: auth._id,
       ownerName: auth.username
     };
-
+console.log(userData);
     if (userData.image && userData.image.name !== '') {
       const reader = new FileReader();
       reader.onload = async (e) => {
@@ -83,9 +83,6 @@ function App() {
       //TODO edit filltering pravi posledno 27.03.2023:12:27 v chas po IT
       await postService.editPost(postId, userData, auth).then(response => {
       })
-
-
-
 
       navigate(`/posts/${postId}`);
 

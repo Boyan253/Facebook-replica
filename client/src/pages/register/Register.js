@@ -3,7 +3,7 @@ import * as userService from '../../service/userService'
 import { useContext } from 'react'
 import Topbar from "../../components/topbar/Topbar";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import socketIO from 'socket.io-client'
 
@@ -94,9 +94,9 @@ export default function Register() {
                 <input placeholder="Password Again" className="loginInput" name="repass" {...register('repass', registerOptions.repass)} />
                 <button className="loginButton" type="submit" >Sign Up</button>
 
-                <button className="loginRegisterButton">
+                <Link to={'/login'}> <button className="loginRegisterButton">
                   Log into Account
-                </button>
+                </button></Link>
               </div>
             </div>
           </div>

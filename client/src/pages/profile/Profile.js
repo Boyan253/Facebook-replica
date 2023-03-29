@@ -71,14 +71,15 @@ export default function Profile({ posts }) {
     };
   }, [userId, navigate, auth])
 
-  
 
-  
+  if (!auth.payload) {
+    return <Navigate to={'/login'}></Navigate>
+  }
   return (
     <>
       <Topbar user={user} />
       <div className="profile">
-        <Sidebar />
+        <Sidebar user={user.reworkedUser}/>
         <div className="profileRight">
           <div className="profileRightTop">
             <div className="profileCover">
@@ -100,7 +101,7 @@ export default function Profile({ posts }) {
           </div>
           <div className="profileRightBottom">
             <Feed posts={post} user={user} />
-            <Rightbar profile />
+            <Rightbar profile user={user.reworkedUser} />
           </div>
         </div>
       </div>
