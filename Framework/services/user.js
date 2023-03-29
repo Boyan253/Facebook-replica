@@ -7,7 +7,6 @@ const { compare, hash } = require('bcrypt')
 async function register(username, email, password) {
 
     const existing = await getUserByEmail(email)
-    // console.log(existing);
     if (existing) {
         throw new Error('Username is taken')
     }

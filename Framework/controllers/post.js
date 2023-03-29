@@ -1,12 +1,10 @@
 const Post = require('../models/Post');
-const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const User = require('../models/User');
 const { updatePost, deletePost, likePost } = require('../services/post')
 const Chat = require('../models/Chat');
 const mongoose = require('mongoose')
 const multer = require('multer');
-const { isAuthenticated } = require('../middleware/jwt');
 // const GridFsStorage = require('multer-gridfs-storage');
 // const storage = new GridFsStorage({
 //     url: 'mongodb://127.0.0.1:27017/theFuture',
@@ -20,7 +18,7 @@ const { isAuthenticated } = require('../middleware/jwt');
 
 
 // const upload = multer({ storage });
-
+//Create
 router.post('/posts', async (req, res) => {
     const { location, description, image, owner, ownerName, title, tags } = req.body;
     let data
@@ -39,7 +37,7 @@ router.post('/posts', async (req, res) => {
 
     try {
         const createdUser = await Post.create({ ...data });
-        const post = { ...data, _id: createdUser._id, createdAt: createdUser.createdAt, updatedAt: createdUser.updatedAt };
+        const post = { ...data, _id: createdUser._id, createdAt: createdUser.createdAt, updatedAt: createdUser.updatedAt, likes: createdUser.likes };
 
         res.status(200).json({ post });
     } catch (error) {
@@ -55,7 +53,6 @@ router.put('/posts/:postId', async (req, res) => {
     const { location, description, image, owner, ownerName, title, tags } = req.body;
     let imageUrl
     let data
-    console.log(image == undefined);
     if (typeof image !== "object" && image !== undefined) {
 
         imageUrl = `data:image/png;base64,${image}`
@@ -69,13 +66,14 @@ router.put('/posts/:postId', async (req, res) => {
 
     try {
         const editResponse = await updatePost(id, data)
-        console.log(editResponse);
         res.json({ editResponse })
 
     } catch (err) {
         console.log(err);
     }
 });
+
+//Home
 router.get("/posts", async (req, res) => {
 
     try {
@@ -92,6 +90,8 @@ router.get("/posts", async (req, res) => {
     }
 })
 
+
+//Details
 router.get('/posts/:id', async (req, res) => {
 
 
@@ -112,9 +112,46 @@ router.get('/posts/:id', async (req, res) => {
 
 })
 
+// Get Friends
+router.get('/friends/:userId', async (req, res) => {
+
+    const userId = req.params.userId
+    console.log(userId);
+    try {
+
+        const user = await User.findById(userId)
+        const friends = await Promise.all(
+            user.friends.map(friendId => {
+                return User.findById(friendId)
+            })
+        )
+        let friendList = []
+
+        friends.map(friend => {
+            const { _id, profilePicture, username, email } = friend;
+            friendList.push({ _id, profilePicture, username, email })
+        })
+        console.log(friendList);
+        res.json(friendList)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+
+})
+
+//Post Friends
+
+router.get('/like/:postId', async (req, res) => {
+
+
+
+})
+
+
+
+//Like
 router.post('/like/:postId', async (req, res) => {
     const { userId } = req.body
-    console.log(req.body);
     const post = req.params.postId
     try {
         const like = await likePost(post, userId)
@@ -126,7 +163,7 @@ router.post('/like/:postId', async (req, res) => {
     console.log('deleting is here by details');
 })
 
-
+//Delete
 
 router.get('/delete/:postId', async (req, res) => {
     const post = req.params.postId
@@ -139,7 +176,7 @@ router.get('/delete/:postId', async (req, res) => {
 
 })
 
-
+//Profile
 router.get('/profile/:userId', async (req, res) => {
     console.log('going into profile');
     const id = req.params.userId
@@ -148,7 +185,6 @@ router.get('/profile/:userId', async (req, res) => {
         return res.status(400).json({ error: 'Invalid profile' });
 
     }
-    console.log(token);
     if (token == 'undefined') {
         console.log('Missing Auth');
         return res.status(401)
@@ -182,12 +218,8 @@ router.get('/', async (req, res) => {
         console.log(error);
     }
 
-
-
-
-
-
 })
+//get User
 router.get('/users/:userId', async (req, res) => {
     console.log('going into profile');
     const id = req.params.userId
@@ -196,19 +228,19 @@ router.get('/users/:userId', async (req, res) => {
         return res.status(400).json({ error: 'Invalid profile' });
 
     }
-    console.log(token);
     if (token == 'undefined') {
         return res.status(401).json({ message: 'Missing authorization token' });
     }
     const currentUser = await User.findById(req.params.userId)
 
 
-
-    const reworkedUser = { id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture }
+    const reworkedUser = { id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends }
+    console.log(reworkedUser);
 
     res.json({ reworkedUser })
 
 })
+//Guard
 router.get('/protected', (req, res) => {
     const token = req.headers.authorization;
 
@@ -253,6 +285,7 @@ router.get('/protected', (req, res) => {
 
 //     }
 // })
+//ChatPage Comments
 router.post('/comments', async (req, res) => {
     try {
         const { author, text } = req.body;

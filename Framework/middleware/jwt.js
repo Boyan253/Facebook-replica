@@ -24,7 +24,6 @@ function authenticateJwt(req, res, next) {
     if (token) {
         try {
             const decodedToken = jwt.verify(token, secret);
-            console.log(decodedToken);
             return true
 
         } catch (error) {

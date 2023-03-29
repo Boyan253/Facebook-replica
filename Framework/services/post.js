@@ -24,7 +24,6 @@ async function updatePost(id, post) {
 }
 
 async function likePost(postId, userId) {
-    console.log(postId, userId);
     const post = await Post.findById(postId)
     if (post.likes.includes(userId)) {
         const err = new Error('Already Bought Crypto')
