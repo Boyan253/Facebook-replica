@@ -18,30 +18,20 @@ router.post('/register', isGuest(), async (req, res) => {
 
     //TODO check form action, method, field names
     try {
-        // console.log(req.body
-        // );
-        // if (req.body.password.trim() == '') {
 
 
-        //     throw new Error('Password is required')
-        // }
-        // else if (req.body.password != req.body.repass) {
-
-
-        //     throw new Error('Passwords dont match')
-        // }
         const user = await register(req.body.username, req.body.email, req.body.password)
 
         req.session.user = user
         const payload = { email: user.email, username: user.username, _id: user._id };
         const token = createJwt(payload);
-        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture });
+        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends });
 
 
 
 
     } catch (err) {
-       
+
 
         //TODO send error messages
         const errors = mapErrors(err)
@@ -65,7 +55,7 @@ router.post('/login', isGuest(), async (req, res) => {
         const token = createJwt(payload);
         req.session.user = user
 
-        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture });
+        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends });
 
 
 

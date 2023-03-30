@@ -5,6 +5,7 @@ const { updatePost, deletePost, likePost } = require('../services/post')
 const Chat = require('../models/Chat');
 const mongoose = require('mongoose')
 const multer = require('multer');
+const { followUser, unfollowUser } = require('../services/user');
 // const GridFsStorage = require('multer-gridfs-storage');
 // const storage = new GridFsStorage({
 //     url: 'mongodb://127.0.0.1:27017/theFuture',
@@ -18,8 +19,10 @@ const multer = require('multer');
 
 
 // const upload = multer({ storage });
+
 //Create
 router.post('/posts', async (req, res) => {
+
     const { location, description, image, owner, ownerName, title, tags } = req.body;
     let data
     let imageUrl
@@ -43,9 +46,12 @@ router.post('/posts', async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+
 });
+
 //Edit
 router.put('/posts/:postId', async (req, res) => {
+
     const token = req.headers.authorization;
     if (token == 'undefined') {
         return res.status(401)
@@ -94,9 +100,6 @@ router.get("/posts", async (req, res) => {
 //Details
 router.get('/posts/:id', async (req, res) => {
 
-
-
-
     try {
         //last Time i was trying to do details and connect it with the front end 
         const { id } = req.params
@@ -139,10 +142,26 @@ router.get('/friends/:userId', async (req, res) => {
 
 })
 
-//Post Friends
+//Follow
 
-router.get('/like/:postId', async (req, res) => {
+router.put('/follow/:userId', async (req, res) => {
 
+    const userToFollow = req.params.userId
+    const { userId } = req.body
+    const user = await followUser(userToFollow, userId)
+
+    res.json({ user })
+
+})
+
+//Unfollow
+
+router.put('/unfollow/:userId', async (req, res) => {
+    const userToFollow = req.params.userId
+    const { userId } = req.body
+    const user = await unfollowUser(userToFollow, userId)
+
+   console.log(user);
 
 
 })
@@ -151,6 +170,7 @@ router.get('/like/:postId', async (req, res) => {
 
 //Like
 router.post('/like/:postId', async (req, res) => {
+
     const { userId } = req.body
     const post = req.params.postId
     try {
@@ -161,11 +181,13 @@ router.post('/like/:postId', async (req, res) => {
     }
 
     console.log('deleting is here by details');
+
 })
 
 //Delete
 
 router.get('/delete/:postId', async (req, res) => {
+
     const post = req.params.postId
     try {
         const deletedPost = await deletePost(post)
@@ -178,6 +200,7 @@ router.get('/delete/:postId', async (req, res) => {
 
 //Profile
 router.get('/profile/:userId', async (req, res) => {
+
     console.log('going into profile');
     const id = req.params.userId
     const token = req.headers.authorization;
@@ -197,10 +220,12 @@ router.get('/profile/:userId', async (req, res) => {
     } catch (error) {
         res.status(404)
     }
+
 })
 
 
 router.get('/', async (req, res) => {
+
     const userId = req.query.userId
     const username = req.query.username
     try {
@@ -221,6 +246,7 @@ router.get('/', async (req, res) => {
 })
 //get User
 router.get('/users/:userId', async (req, res) => {
+
     console.log('going into profile');
     const id = req.params.userId
     const token = req.headers.authorization;
@@ -242,6 +268,7 @@ router.get('/users/:userId', async (req, res) => {
 })
 //Guard
 router.get('/protected', (req, res) => {
+
     const token = req.headers.authorization;
 
     if (!token) {
@@ -256,6 +283,7 @@ router.get('/protected', (req, res) => {
     } catch (err) {
         res.status(401).json({ message: 'Invalid authorization token' });
     }
+
 });
 
 
@@ -287,6 +315,7 @@ router.get('/protected', (req, res) => {
 // })
 //ChatPage Comments
 router.post('/comments', async (req, res) => {
+
     try {
         const { author, text } = req.body;
         const newComment = new Chat({ author, text });
@@ -296,6 +325,7 @@ router.post('/comments', async (req, res) => {
         console.error(err);
         res.status(500).send('Error adding comment');
     }
+
 });
 
 
