@@ -11,10 +11,19 @@ import {
   // School,
 } from "@material-ui/icons";
 import CloseFriend from "../closeFriend/CloseFriend";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Sidebar({ user }) {
-  console.log(user);
+  const { auth } = useContext(AuthContext)
+  // const [user, setUser] = useState()
+  if (auth?._id) {
+
+    user = auth
+    user.id = auth._id
+
+  }
+
   const [friends, setFriends] = useState([])
   useEffect(() => {
     const getFriends = async () => {

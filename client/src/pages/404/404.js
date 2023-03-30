@@ -3,8 +3,6 @@ import "./404.css"
 
 export default function ErrorPage() {
     return (
-
-
         <div className="container">
             <h1 className="first-four">4</h1>
             <div className="cog-wheel1">

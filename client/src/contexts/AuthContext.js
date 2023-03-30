@@ -8,7 +8,7 @@
 // import * as userService from '../../src/service/userService'
 // import * as postService from '../../src/service/postService'
 
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
     }
     const userLogout = () => {
         localStorage.clear()
+        window.location.reload()
         setAuth({})
         navigate('/posts')
     }

@@ -1,12 +1,20 @@
 import "./rightbar.css";
-import { Users } from "../../dummyData";
 import Online from "../online/Online";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { FriendsBar } from "../friendsBar/FriendsBar";
 
 export default function Rightbar({ profile, user }) {
+  const { auth } = useContext(AuthContext)
   const [friends, setFriends] = useState([])
+  const [followed, setFollowed] = useState(auth.friends?.includes(user?.id))
+  console.log();
+  useEffect(() => {
+    if (auth.friends?.includes(user?.id)) {
+      setFollowed(data => data = true)
+    }
+  }, [user])
+
   useEffect(() => {
     const getFriends = async () => {
       try {
@@ -22,8 +30,32 @@ export default function Rightbar({ profile, user }) {
     getFriends()
 
   }, [user?.id])
+  const handleFollowClick = async () => {
+    try {
+      if (followed) {
+        await fetch(`http://localhost:3005/unfollow/${user.id}`, {
+          method: "PUT",
+          headers: { "content-type": "application/json", },
+          body: JSON.stringify({ userId: auth._id })
+        })
+      } else {
+        const response = await fetch(`http://localhost:3005/follow/${user.id}`, {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({ userId: auth._id })
+          //lastly here \/
+        })
+      }
 
+    } catch (err) {
+      console.log(err);
+    }
+    setFollowed(!followed)
+  }
 
+  console.log(followed);
   const HomeRightbar = () => {
     return (
       <>
@@ -42,10 +74,10 @@ export default function Rightbar({ profile, user }) {
       </>
     );
   };
-
   const ProfileRightbar = () => {
     return (
       <>
+        {user?.id !== auth._id && (<><button className="addFriendBtn" onClick={(e) => handleFollowClick()}> {followed ? 'Unfollow' : 'Follow'}</button></>)}
         <h4 className="rightbarTitle">User information</h4>
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">

@@ -26,14 +26,14 @@ export default function Topbar(user) {
           {auth?.payload && <span className="topbarLink"><Link className={'a'} to="/create">Create</Link>
             <Link className={'a'} to="/logout">Logout</Link>
           </span>}
-          {!auth?.payload  && (<span className="topbarLink"><Link className={'a'} to="/login">Login</Link>
+          {!auth?.payload && (<span className="topbarLink"><Link className={'a'} to="/login">Login</Link>
             <Link className={'a'} to="/register">Register</Link>
           </span>)}
-          <span className="topbarLink">     <Link className={'a'} to="/posts">Homepage</Link></span>
+          <span className="topbarLink"><Link className={'a'} to="/posts">Homepage</Link></span>
 
 
         </div>
-        {auth?.payload  && (<div className="topbarIcons">
+        {auth?.payload && (<div className="topbarIcons">
           <div className="topbarIconItem">
             <Person />
             {/* <span className="topbarIconBadge">1</span> */}

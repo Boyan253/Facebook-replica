@@ -10,8 +10,12 @@ const ChatPage = () => {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        socket.on('messageResponse', (data) => setMessages([...messages, data]));
-    }, [messages]);
+        socket.on('messageResponse', (data) => {
+          setMessages((prevMessages) => [...prevMessages, data]);
+        });
+      }, []);
+      
+
 
     // useEffect(() => {
     //     fetch('http://localhost:4000/messages')

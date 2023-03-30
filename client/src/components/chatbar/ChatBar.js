@@ -4,8 +4,11 @@ const ChatBar = ({ socket }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    socket.on('newUserResponse', (data) => setUsers(data));
+    socket.on('newUserResponse', (data) => {
+      console.log(data);
+      setUsers(data)});
   }, [socket, users]);
+  
   return (
     <div className="chat__sidebar">
       <h2>Open Global Chat</h2>

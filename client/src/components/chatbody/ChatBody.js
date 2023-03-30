@@ -6,7 +6,6 @@ const ChatBody = ({ messages }) => {
   const handleLeaveChat = () => {
     navigate('/posts');
   };
-
   return (
     <>
       <header className="chat__mainHeader">

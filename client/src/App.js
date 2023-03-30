@@ -7,7 +7,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import * as postService from './service/postService'
 import { Create } from "./pages/create/Create";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext, AuthProvider } from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 import { Details } from "./pages/details/Details";
 import { Logout } from "./pages/logout/Logout";
 import ChatPage from "./pages/chatpage/ChatPage";
@@ -24,8 +24,6 @@ function App() {
       )
   }, [])
 
-
-
   const postCreateHandler = async (formData) => {
     const userData = {
       title: formData.get('title'),
@@ -36,7 +34,6 @@ function App() {
       owner: auth._id,
       ownerName: auth.username
     };
-console.log(userData);
     if (userData.image && userData.image.name !== '') {
       const reader = new FileReader();
       reader.onload = async (e) => {
@@ -81,6 +78,7 @@ console.log(userData);
       reader.readAsDataURL(userData.image);
     } else {
       //TODO edit filltering pravi posledno 27.03.2023:12:27 v chas po IT
+
       await postService.editPost(postId, userData, auth).then(response => {
       })
 
@@ -100,8 +98,6 @@ console.log(userData);
   }
 
   return (
-
-
     <Routes>
       <Route path="/posts" element={<Home posts={posts} />}></Route>
       <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
@@ -115,6 +111,7 @@ console.log(userData);
       <Route path="/register" element={<Register></Register>}></Route>
       <Route path="/chat" element={<RouteGuard><ChatPage ></ChatPage></RouteGuard>}></Route >
       <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
+
     </Routes >
   )
 

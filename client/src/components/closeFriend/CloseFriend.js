@@ -1,7 +1,6 @@
 import "./closeFriend.css";
 
-export default function CloseFriend({friends}) {
-console.log(friends);
+export default function CloseFriend({ friends }) {
   return (
     <li className="sidebarFriend">
       <img className="sidebarFriendImg" src={friends.profilePicture} alt="" />

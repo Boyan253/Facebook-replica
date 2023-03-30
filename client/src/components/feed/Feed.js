@@ -4,9 +4,9 @@ import "./feed.css";
 
 export default function Feed({ posts, user, likePostHandler }) {
   // Comments
-  const getComments = () => {
+  // const getComments = () => {
 
-  }
+  // }
 
 
 
