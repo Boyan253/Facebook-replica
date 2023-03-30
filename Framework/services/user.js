@@ -44,7 +44,45 @@ async function getUserByEmail(email) {
     return user
 }
 
+
+async function followUser(userToFollow, userId) {
+
+    const user = await User.findById(userId)
+    if (user.friends.includes(userToFollow)) {
+        const err = new Error('Already Followed User')
+        console.log(err);
+        return err
+    } else {
+        user.friends.push(userToFollow)
+        await user.save()
+        return user
+    }
+
+}
+
+
+async function unfollowUser(userToUnfollow, userId) {
+    const user = await User.findById(userId);
+    console.log(userId);
+    if (!user.friends.includes(userToUnfollow)) {
+        const err = new Error('User not found in friends list');
+        console.log(err);
+        return err;
+    } else {
+        user.friends = user.friends.filter((friend) => friend !== userToUnfollow);
+        console.log(user);
+        await user.save();
+        return user;
+    }
+}
+
+
+
+
+
 module.exports = {
     login,
-    register
+    register,
+    followUser,
+    unfollowUser
 }

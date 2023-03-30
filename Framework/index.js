@@ -68,8 +68,6 @@ async function start() {
 
 
     socketIO.on('connection', (socket) => {
-
-        console.log(`⚡: ${socket.id} user just connected!`);
         socket.on('message', async (data) => {
 
             //Save the message to the database
