@@ -25,7 +25,8 @@ router.post('/register', isGuest(), async (req, res) => {
         req.session.user = user
         const payload = { email: user.email, username: user.username, _id: user._id };
         const token = createJwt(payload);
-        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends });
+        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends, createdAt: user.createdAt, updatedAt: user.updatedAt });
+
 
 
 
@@ -55,9 +56,7 @@ router.post('/login', isGuest(), async (req, res) => {
         const token = createJwt(payload);
         req.session.user = user
 
-        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends });
-
-
+        res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends, createdAt: user.createdAt, updatedAt: user.updatedAt });
 
         //TODO check redirect requirenements
     } catch (error) {
@@ -71,8 +70,6 @@ router.post('/login', isGuest(), async (req, res) => {
 })
 router.get('/logout', (req, res) => {
     isAuthenticated()
-
-
     console.log('deleted');
     res.json('logout done')
 

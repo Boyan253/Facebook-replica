@@ -3,7 +3,7 @@ const router = express.Router();
 const ChatRoom = require('../models/Chat');
 const Message = require('../models/Message');
 
-// Get all messages for a given chat room
+
 router.get('/:roomId/messages', async (req, res) => {
     try {
         const roomId = req.params.roomId;
@@ -15,7 +15,7 @@ router.get('/:roomId/messages', async (req, res) => {
     }
 });
 
-// Create a new message in a chat room
+// Create
 router.post('/:roomId/messages', async (req, res) => {
     try {
         const { sender, recipient, message } = req.body;
@@ -29,7 +29,7 @@ router.post('/:roomId/messages', async (req, res) => {
     }
 });
 
-// Get all chat rooms for a given user
+// Get al
 router.get('/:userId/chat-rooms', async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -41,7 +41,7 @@ router.get('/:userId/chat-rooms', async (req, res) => {
     }
 });
 
-// Create a new chat room
+// Create a new 
 router.post('/chat-rooms', async (req, res) => {
     try {
         const { name, description, users } = req.body;

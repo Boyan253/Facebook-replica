@@ -38,6 +38,10 @@ const postSchema = new Schema(
             type: String,
             required: true
         },
+          ownerProfilePicture: {
+            type: String,
+            required: true
+        },
         comments: { type: [], default: [] },
 
 

@@ -23,23 +23,23 @@ const { followUser, unfollowUser } = require('../services/user');
 //Create
 router.post('/posts', async (req, res) => {
 
-    const { location, description, image, owner, ownerName, title, tags } = req.body;
+    const { location, description, image, owner, ownerName, title, tags, ownerProfilePicture } = req.body;
     let data
     let imageUrl
     console.log(typeof image);
     if (typeof image !== "object") {
 
         imageUrl = `data:image/png;base64,${image}`
-        data = { location, imageUrl, description, owner, ownerName, title, tags };//polzvai id vmesto username
+        data = { location, imageUrl, description, owner, ownerName, title, tags, ownerProfilePicture };//polzvai id vmesto username
 
     } else {
         imageUrl = `https://images.squarespace-cdn.com/content/v1/584fb58a725e254d6b0830a3/1580511138056-M3RVKI1B97QKRX48SKJT/PWB+LOGO+-+TM_White-01.png`
 
-        data = { location, imageUrl, description, owner, ownerName, title, tags };//polzvai id vmesto username
+        data = { location, imageUrl, description, owner, ownerName, title, tags, ownerProfilePicture };//polzvai id vmesto username
     }
 
     try {
-        const createdUser = await Post.create({ ...data });
+        const createdUser = await Post.create({ ...data })
         const post = { ...data, _id: createdUser._id, createdAt: createdUser.createdAt, updatedAt: createdUser.updatedAt, likes: createdUser.likes };
 
         res.status(200).json({ post });
@@ -84,8 +84,7 @@ router.get("/posts", async (req, res) => {
 
     try {
 
-        let posts = await Post.find({})
-            .lean();
+        let posts = await Post.find({}).sort({ createdAt: 'desc' })
 
         res.status(200).json({ posts });
     } catch (error) {
@@ -119,7 +118,6 @@ router.get('/posts/:id', async (req, res) => {
 router.get('/friends/:userId', async (req, res) => {
 
     const userId = req.params.userId
-    console.log(userId);
     try {
 
         const user = await User.findById(userId)
@@ -134,7 +132,6 @@ router.get('/friends/:userId', async (req, res) => {
             const { _id, profilePicture, username, email } = friend;
             friendList.push({ _id, profilePicture, username, email })
         })
-        console.log(friendList);
         res.json(friendList)
     } catch (error) {
         res.status(500).json(error)
@@ -157,12 +154,12 @@ router.put('/follow/:userId', async (req, res) => {
 //Unfollow
 
 router.put('/unfollow/:userId', async (req, res) => {
+
     const userToFollow = req.params.userId
     const { userId } = req.body
     const user = await unfollowUser(userToFollow, userId)
 
-   console.log(user);
-
+    res.json({ user })
 
 })
 
@@ -201,10 +198,11 @@ router.get('/delete/:postId', async (req, res) => {
 //Profile
 router.get('/profile/:userId', async (req, res) => {
 
-    console.log('going into profile');
     const id = req.params.userId
     const token = req.headers.authorization;
     if (!mongoose.Types.ObjectId.isValid(id)) {
+        console.log('Profile does not exist!');
+
         return res.status(400).json({ error: 'Invalid profile' });
 
     }
@@ -225,11 +223,17 @@ router.get('/profile/:userId', async (req, res) => {
 
 
 router.get('/', async (req, res) => {
-
     const userId = req.query.userId
     const username = req.query.username
     try {
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ error: 'Invalid profile' });
 
+        }
+        else if (!await User.findById(req.params.id)) {
+            return res.status(400).json({ error: 'Invalid profile' });
+
+        }
         const user = userId
             ? await User.findById(req.params.id)
             : await User.findOne({ username: username })
@@ -247,10 +251,12 @@ router.get('/', async (req, res) => {
 //get User
 router.get('/users/:userId', async (req, res) => {
 
-    console.log('going into profile');
     const id = req.params.userId
     const token = req.headers.authorization;
     if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: 'Invalid profile' });
+
+    } else if (!await User.findById(req.params.userId)) {
         return res.status(400).json({ error: 'Invalid profile' });
 
     }
@@ -259,8 +265,9 @@ router.get('/users/:userId', async (req, res) => {
     }
     const currentUser = await User.findById(req.params.userId)
 
-
-    const reworkedUser = { id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends }
+    const reworkedUser = {
+        id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends
+    }
     console.log(reworkedUser);
 
     res.json({ reworkedUser })
