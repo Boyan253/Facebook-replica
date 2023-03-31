@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Post({ post, user, likePostHandler }) {
+export default function Post({ post, likePostHandler }) {
   const { isAuthenticated, auth } = useContext(AuthContext)
   const [likes] = useState(post ? post.likes.length : 0)
   let isLiked = false
@@ -18,12 +18,12 @@ export default function Post({ post, user, likePostHandler }) {
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <img
+            <Link to={`/profile/${post.owner}`}><img
               className="postProfileImg"
-              src={user ? user.reworkedUser.profilePicture : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8SiTWYOrsL_Ea5ILRPJlK9bLlBUFgxvyu1TFL4F2JBQ&s'}
+              src={post ? post.ownerProfilePicture : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8SiTWYOrsL_Ea5ILRPJlK9bLlBUFgxvyu1TFL4F2JBQ&s'}
               alt="public"
 
-            />
+            /></Link>
             <span className="postUsername">
               {post.ownerName}
             </span>

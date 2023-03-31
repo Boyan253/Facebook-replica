@@ -7,28 +7,12 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function Home({ posts }) {
+export default function Home({ posts, like, likePostHandler }) {
   const { auth } = useContext(AuthContext)
   const [user, setUser] = useState({ reworkedUser: {} });
 
   const navigate = useNavigate()
-  const [like, setLike] = useState(0)
-  const likePostHandler = (postId, userId) => {
-    const result = fetch(`http://localhost:3005/like/${postId}`, {
-      method: 'POST',
-      headers: {
-        'authorization': auth.payload,
-        "content-type": "application/json",
 
-      },
-      body: JSON.stringify({ userId })
-    }).then(response => response.json())
-      .then(data =>
-        setLike(data.like)
-
-      )
-    window.location.reload()
-  }
 
   useEffect(() => {
     let isMounted = true;
@@ -63,7 +47,7 @@ export default function Home({ posts }) {
   if (like === {}) {
     return
   }
-
+console.log(user);
 
 
   return (

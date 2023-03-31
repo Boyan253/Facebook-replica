@@ -8,13 +8,16 @@ export default function Rightbar({ profile, user }) {
   const { auth } = useContext(AuthContext)
   const [friends, setFriends] = useState([])
   const [followed, setFollowed] = useState(auth.friends?.includes(user?.id))
-  console.log();
+  console.log(auth);
   useEffect(() => {
-    if (auth.friends?.includes(user?.id)) {
+    if (auth.friends?.includes(user.id)) {
       setFollowed(data => data = true)
+    } else {
+      setFollowed(false)
+
     }
   }, [user])
-
+  console.log(followed);
   useEffect(() => {
     const getFriends = async () => {
       try {
@@ -33,7 +36,7 @@ export default function Rightbar({ profile, user }) {
   const handleFollowClick = async () => {
     try {
       if (followed) {
-        await fetch(`http://localhost:3005/unfollow/${user.id}`, {
+        const response = await fetch(`http://localhost:3005/unfollow/${user.id}`, {
           method: "PUT",
           headers: { "content-type": "application/json", },
           body: JSON.stringify({ userId: auth._id })
@@ -46,7 +49,7 @@ export default function Rightbar({ profile, user }) {
           },
           body: JSON.stringify({ userId: auth._id })
           //lastly here \/
-        })
+        }).then(res => res.json()).then(data => user = data.user)
       }
 
     } catch (err) {
@@ -55,7 +58,7 @@ export default function Rightbar({ profile, user }) {
     setFollowed(!followed)
   }
 
-  console.log(followed);
+
   const HomeRightbar = () => {
     return (
       <>

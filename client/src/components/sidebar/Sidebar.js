@@ -22,6 +22,7 @@ export default function Sidebar({ user }) {
     user = auth
     user.id = auth._id
 
+
   }
 
   const [friends, setFriends] = useState([])

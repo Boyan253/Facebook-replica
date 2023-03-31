@@ -13,16 +13,45 @@ import { Logout } from "./pages/logout/Logout";
 import ChatPage from "./pages/chatpage/ChatPage";
 import { Edit } from "./pages/edit/Edit";
 import { RouteGuard } from "./utils/route-guards/RouteGuards";
+import { OptionsModal } from "./components/modals/optionsModal/OptionsModal";
 
 function App() {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
   const { auth } = useContext(AuthContext)
+
+  const [like, setLike] = useState(0)
+  const likePostHandler = (postId, userId) => {
+    const result = fetch(`http://localhost:3005/like/${postId}`, {
+      method: 'POST',
+      headers: {
+        'authorization': auth.payload,
+        "content-type": "application/json",
+
+      },
+      body: JSON.stringify({ userId })
+    }).then(response => response.json())
+      .then(data =>
+        setLike(data.like)
+
+      )
+    window.location.reload()
+  }
+
+
   useEffect(() => {
     postService.getAllPosts()
       .then(posts => setPosts(posts)
       )
   }, [])
+
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => setIsOpen(true);
+  const closeModal = (event) => {
+    if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('close')) {
+      setIsOpen(false);
+    }
+  }
 
   const postCreateHandler = async (formData) => {
     const userData = {
@@ -32,7 +61,8 @@ function App() {
       description: formData.get('description'),
       image: formData.get('image'),
       owner: auth._id,
-      ownerName: auth.username
+      ownerName: auth.username,
+      ownerProfilePicture: auth.profilePicture
     };
     if (userData.image && userData.image.name !== '') {
       const reader = new FileReader();
@@ -45,19 +75,18 @@ function App() {
         userData.image = btoa(binaryData);
 
         const createdUser = await postService.createPost(userData);
-        setPosts(posts => [...posts, createdUser]);
+        setPosts(posts => [createdUser, ...posts]);
         navigate('/posts');
       }
       reader.readAsDataURL(userData.image);
     } else {
       const createdUser = await postService.createPost(userData);
-      setPosts(posts => [...posts, createdUser]);
+      setPosts(posts => [createdUser, ...posts])
       navigate('/posts');
     }
   }
 
   const postEditHandler = async (formData, postId) => {
-
     const userData = Object.fromEntries(formData)
     if (userData.image !== undefined) {
       const reader = new FileReader(userData.image)
@@ -78,7 +107,6 @@ function App() {
       reader.readAsDataURL(userData.image);
     } else {
       //TODO edit filltering pravi posledno 27.03.2023:12:27 v chas po IT
-
       await postService.editPost(postId, userData, auth).then(response => {
       })
 
@@ -98,21 +126,24 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/posts" element={<Home posts={posts} />}></Route>
-      <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
-      <Route path="/create" element={<Create postCreateHandler={postCreateHandler}></Create>}></Route>
-      <Route path="/edit/:postId" element={<RouteGuard><Edit postEditHandler={postEditHandler}></Edit></RouteGuard>}></Route>
+    <>
+      {isOpen && <OptionsModal isOpen={isOpen} closeModal={closeModal} openModal={openModal}></OptionsModal>}
+      <Routes>
+        <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} />}></Route>
+        <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
+        <Route path="/create" element={<Create postCreateHandler={postCreateHandler}></Create>}></Route>
+        <Route path="/edit/:postId" element={<RouteGuard><Edit postEditHandler={postEditHandler}></Edit></RouteGuard>}></Route>
 
-      <Route path="/profile/:userId" element={<Profile posts={posts}></Profile>}></Route>
-      <Route path="/login" element={<Login ></Login>}></Route>
-      <Route path="/logout" element={<Logout></Logout>}></Route>
+        <Route path="/profile/:userId" element={<Profile posts={posts} openModal={openModal} likePostHandler={likePostHandler}></Profile>}></Route>
+        <Route path="/login" element={<Login ></Login>}></Route>
+        <Route path="/logout" element={<Logout></Logout>}></Route>
 
-      <Route path="/register" element={<Register></Register>}></Route>
-      <Route path="/chat" element={<RouteGuard><ChatPage ></ChatPage></RouteGuard>}></Route >
-      <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
+        <Route path="/register" element={<Register></Register>}></Route>
+        <Route path="/chat" element={<RouteGuard><ChatPage ></ChatPage></RouteGuard>}></Route >
+        <Route path="/*" element={<ErrorPage></ErrorPage>}></Route>
 
-    </Routes >
+      </Routes >
+    </>
   )
 
 }
