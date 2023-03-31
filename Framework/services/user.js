@@ -51,12 +51,13 @@ async function followUser(userToFollow, userId) {
     if (user.friends.includes(userToFollow)) {
         const err = new Error('Already Followed User')
         console.log(err);
-        return err
+        return user
     } else {
         user.friends.push(userToFollow)
         await user.save()
-        return user
+        
     }
+    return user
 
 }
 
@@ -69,13 +70,12 @@ async function unfollowUser(userToUnfollow, userId) {
         console.log(err);
         return err;
     } else {
-        user.friends = user.friends.filter((friend) => friend !== userToUnfollow);
-        console.log(user);
-        await user.save();
-        return user;
+        if (user.friends.includes(userToUnfollow)) {
+            await user.updateOne({ $pull: { friends: userToUnfollow } });
+            await user.save()
+        }
     }
 }
-
 
 
 
