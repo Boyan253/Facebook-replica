@@ -38,11 +38,17 @@ const postSchema = new Schema(
             type: String,
             required: true
         },
-          ownerProfilePicture: {
+        ownerProfilePicture: {
             type: String,
             required: true
         },
-        comments: {  },
+        comments: [
+            {
+                author: { type: ObjectId, ref: "User" },
+                text: { type: String, required: true },
+                createdAt: { type: Date, default: Date.now },
+            },
+        ],
 
 
     },

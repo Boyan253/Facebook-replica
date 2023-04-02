@@ -62,6 +62,7 @@ router.post('/login', isGuest(), async (req, res) => {
     } catch (error) {
         //TODO send error messages
         const errors = mapErrors(error)
+        res.json({errors})
         console.log(errors);
 
 
