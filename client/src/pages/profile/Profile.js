@@ -51,7 +51,7 @@ export default function Profile({ posts, openModal, likePostHandler }) {
         headers: { 'authorization': auth.payload }
       }).catch((err) => {
         console.log(err);
-        navigate('/posts')
+        navigate('/login')
         return
       })
       if (response.status !== 200) {

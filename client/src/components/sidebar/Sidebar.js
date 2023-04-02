@@ -25,7 +25,6 @@ export default function Sidebar({ user }) {
 
   }
 
-  const [friends, setFriends] = useState([])
   useEffect(() => {
     const getFriends = async () => {
       try {
@@ -41,6 +40,8 @@ export default function Sidebar({ user }) {
     getFriends()
 
   }, [user?.id])
+  const [friends, setFriends] = useState([])
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">

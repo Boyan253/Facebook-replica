@@ -133,7 +133,7 @@ function App() {
       <Routes>
         <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} />}></Route>
         <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
-        <Route path="/create" element={<Create postCreateHandler={postCreateHandler}></Create>}></Route>
+        <Route path="/create" element={<RouteGuard><Create postCreateHandler={postCreateHandler}></Create></RouteGuard>}></Route>
         <Route path="/edit/:postId" element={<RouteGuard><Edit postEditHandler={postEditHandler}></Edit></RouteGuard>}></Route>
 
         <Route path="/profile/:userId" element={<Profile posts={posts} openModal={openModal} likePostHandler={likePostHandler}></Profile>}></Route>

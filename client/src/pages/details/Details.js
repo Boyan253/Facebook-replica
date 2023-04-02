@@ -15,24 +15,37 @@ export function Details({ posts, postDeleteHandler }) {
     const [post, setPost] = useState({})
     const { auth } = useContext(AuthContext)
     const { postId } = useParams()
+
     useEffect(() => {
-        postService.getOnePost(postId)
-            .then(data => {
-                setPost(data)
-            }).catch((err) => {
-                console.log(err);
+        const fetchData = async () => {
+            try {
+                const postData = await postService.getOnePost(postId);
+                setPost(postData);
+
+                const commentsData = await commentsService.getComments(postId);
+
+                setComments(commentsData);
+            } catch (err) {
+                console.error(err);
                 navigate('/404')
-            })
-    }, [postId, navigate])
+            }
+        };
+
+        fetchData();
+    }, [postId, navigate]);
 
     const [commentText, setCommentText] = useState("");
     const [comment, setComments] = useState([]);
 
+    console.log(comment);
+
+
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
         if (commentText.trim() !== "") {
-            const result = await commentsService.addComment(postId, { username: auth.username, comment })
-            setComments([...comment, { text: commentText }]);
+            const result = await commentsService.addComment(postId, { profilePicture: auth.profilePicture, username: auth.username, text: commentText })
+            console.log(result);
+            setComments([{ profilePicture: auth.profilePicture, username: auth.username, text: commentText }, ...comment]);
             setCommentText("");
         }
     };

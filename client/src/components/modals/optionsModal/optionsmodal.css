@@ -13,7 +13,7 @@
 
 .modal {
   box-sizing: content-box;
-  background-color: rgb(36, 130, 144);
+  background: linear-gradient(132deg, rgb(34, 181, 254) 0.00%, rgb(255, 186, 214) 100.00%);
   padding: 20px;
   border: 1px solid rgb(59, 44, 44);
   max-width: 80%;
