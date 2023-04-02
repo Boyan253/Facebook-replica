@@ -221,6 +221,45 @@ router.get('/profile/:userId', async (req, res) => {
 
 })
 
+//Posts getComments  
+router.get('/posts/:postId/comments', async (req, res) => {
+    try {
+        const post = await Post.findOne({ gameId: req.params.postId });
+        if (!post || !post.comments) {
+            res.json([]);
+        } else {
+            console.log(post.comments);
+            res.json(post.comments);
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
+
+//Posts postComments  
+router.post('/posts/:postId/comments', async (req, res) => {
+    try {
+        const post = await Post.findOne({ gameId: req.params.postId });
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+        console.log(req.body);
+        const comment = {
+            username: req.body.username,
+            text: Array.isArray(req.body.text) ? req.body.text[0] : req.body.text,
+            profilePicture: req.body.profilePicture
+        };
+        post.comments.push(comment);
+        await post.save();
+        res.json(post);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 router.get('/', async (req, res) => {
     const userId = req.query.userId

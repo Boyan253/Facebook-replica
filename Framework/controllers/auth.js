@@ -10,15 +10,14 @@ const { createJwt, authenticateJwt, isAuthenticated } = require('../middleware/j
 
 
 
-router.get('/register', isGuest(), (req, res) => {
+// router.get('/register', isGuest(), (req, res) => {
 
-    res.render('register');
-})
+//     res.render('register');
+// })
 router.post('/register', isGuest(), async (req, res) => {
 
     //TODO check form action, method, field names
     try {
-
 
         const user = await register(req.body.username, req.body.email, req.body.password)
 
@@ -27,17 +26,12 @@ router.post('/register', isGuest(), async (req, res) => {
         const token = createJwt(payload);
         res.json({ payload: token, email: user.email, username: user.username, _id: user._id, profilePicture: user.profilePicture, friends: user.friends, createdAt: user.createdAt, updatedAt: user.updatedAt });
 
-
-
-
-
     } catch (err) {
-
 
         //TODO send error messages
         const errors = mapErrors(err)
+        res.json({ errors })
         console.log(errors);
-
 
     }
 
@@ -62,9 +56,8 @@ router.post('/login', isGuest(), async (req, res) => {
     } catch (error) {
         //TODO send error messages
         const errors = mapErrors(error)
-        res.json({errors})
+        res.json({ errors })
         console.log(errors);
-
 
     };
 
@@ -73,8 +66,6 @@ router.get('/logout', (req, res) => {
     isAuthenticated()
     console.log('deleted');
     res.json('logout done')
-
-
 
 })
 module.exports = router

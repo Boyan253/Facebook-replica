@@ -44,7 +44,8 @@ const postSchema = new Schema(
         },
         comments: [
             {
-                author: { type: ObjectId, ref: "User" },
+                profilePicture: { type: String },
+                username: { type: String, required: true },
                 text: { type: String, required: true },
                 createdAt: { type: Date, default: Date.now },
             },
