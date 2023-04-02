@@ -41,7 +41,9 @@ function App() {
 
   useEffect(() => {
     postService.getAllPosts()
-      .then(posts => setPosts(posts)
+      .then(posts => {
+        setPosts(posts)
+      }
       )
   }, [])
 

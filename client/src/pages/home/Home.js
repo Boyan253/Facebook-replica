@@ -47,7 +47,6 @@ export default function Home({ posts, like, likePostHandler }) {
   if (like === {}) {
     return
   }
-console.log(user);
 
 
   return (

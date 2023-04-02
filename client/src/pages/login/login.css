@@ -1,5 +1,5 @@
 .login {
-  width: 100vw;
+  /* width: 100vw; */
   height: 100vh;
   background-color: #f0f2f5;
   display: flex;
@@ -24,7 +24,7 @@
 .loginLogo {
   font-size: 50px;
   font-weight: 800;
-  color: #1775ee;
+  color: #0e99da;
   margin-bottom: 10px;
 }
 

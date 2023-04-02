@@ -1,9 +1,12 @@
 import { useForm } from 'react-hook-form';
 import Topbar from '../../components/topbar/Topbar';
 import './create.css';
+import { Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export function Create({ postCreateHandler }) {
-
+    const { auth } = useContext(AuthContext)
     const {
         register,
         handleSubmit,
@@ -20,7 +23,9 @@ export function Create({ postCreateHandler }) {
             formData.append("image", data.image[0]);
         }
 
-        postCreateHandler(formData);
+        postCreateHandler(formData).catch(() => {
+            return <Navigate to={'/login'}></Navigate>
+        })
     };
 
 
@@ -56,6 +61,9 @@ export function Create({ postCreateHandler }) {
         //     },
         // },
     };
+    if (!auth._id) {
+return <Navigate to={'/login'}></Navigate>
+    }
 
     return (
         <>

@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Profile({ posts, openModal, likePostHandler }) {
-  console.log(openModal);
   const navigate = useNavigate()
   const { userId } = useParams()
   const [post, setPost] = useState([])
@@ -86,7 +85,7 @@ export default function Profile({ posts, openModal, likePostHandler }) {
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                src={user.reworkedUser.backgroundImage || "https://th.bing.com/th/id/OIP.QTr9mgz1n9L5wQY5e9ImOwHaH1?w=182&h=192&c=7&r=0&o=5&dpr=1.3&pid=1.7"}
+                src={user.reworkedUser.backgroundImage || "https://marketplace.canva.com/EAEmB3DmXk0/1/0/1600w/canva-bright-gradient-lettering-rainbow-facebook-cover-0Z5QgybLshE.jpg"}
                 alt=""
               />
               <img
@@ -101,7 +100,7 @@ export default function Profile({ posts, openModal, likePostHandler }) {
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed posts={post} likePostHandler={likePostHandler} />
+            <Feed posts={post} user={user} likePostHandler={likePostHandler} />
             <Rightbar profile user={user.reworkedUser} />
           </div>
         </div>

@@ -61,6 +61,12 @@ export function Edit({ postEditHandler }) {
 
     return (
         <>
+            <div className="errorContainer">
+                {errors.title && (<p className="fade-in">{errors.title.message}</p>)}
+                {errors.location && (<p className="fade-in">{errors.location.message}</p>)}
+                {errors.tags && (<p className="fade-in">{errors.tags.message}</p>)}
+                {errors.description && (<p className="fade-in">{errors.description.message}</p>)}
+            </div>
             {isAuthenticated ? <><Topbar />
                 <div className="body">
                     <section className="upload-section">
@@ -77,9 +83,7 @@ export function Edit({ postEditHandler }) {
                                                 placeholder="Enter Title"
                                                 {...register("title", { required: "Title is required" })}
                                             />
-                                            {errors.title && (
-                                                <span className="error">{errors.title.message}</span>
-                                            )}
+
                                         </div>
                                     </div>
                                     <div className="input-wrapper">
@@ -93,11 +97,7 @@ export function Edit({ postEditHandler }) {
                                                     required: "Location is required"
                                                 })}
                                             />
-                                            {errors.location && (
-                                                <span className="error">
-                                                    {errors.location.message}
-                                                </span>
-                                            )}
+
                                         </div>
                                     </div>
                                     <div className="input-wrapper">
@@ -109,9 +109,7 @@ export function Edit({ postEditHandler }) {
                                                 placeholder="Enter Tags"
                                                 {...register("tags", { required: "Tags are required" })}
                                             />
-                                            {errors.tags && (
-                                                <span className="error">{errors.tags.message}</span>
-                                            )}
+
                                         </div>
                                     </div>
                                     <div className="input-wrapper">
@@ -130,15 +128,11 @@ export function Edit({ postEditHandler }) {
                                                     required: "Descriptionis required"
                                                 })}
                                             ></textarea>
-                                            {errors.description && (
-                                                <span className="error">
-                                                    {errors.description.message}
-                                                </span>
-                                            )}
+
                                         </div>
                                     </div>
                                     <div className="input-wrapper">
-                                        <button className="btn-create">Update</button>
+                                        <button className="button-upload">Update</button>
                                     </div>
                                 </form>
                             )}

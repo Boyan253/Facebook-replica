@@ -2,7 +2,7 @@ import Topbar from "../../components/topbar/Topbar";
 import "./login.css";
 import * as userService from "../../service/userService"
 import { AuthContext } from "../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { useForm } from 'react-hook-form'
 import socketIO from 'socket.io-client'
@@ -10,8 +10,8 @@ import socketIO from 'socket.io-client'
 const socket = socketIO.connect('http://localhost:3005');
 
 export default function Login() {
-  const { userLogin } = useContext(AuthContext)
-  let { register, handleSubmit, formState: { errors } } = useForm({
+  const { userLogin, isAuthenticated } = useContext(AuthContext)
+  let { register, handleSubmit, formState: { errors }, setError } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -42,6 +42,15 @@ export default function Login() {
     userService.login(email, password)
       .then(authData => {
         userLogin(authData)
+        console.log(authData.errors);
+        if (authData.errors) {
+          console.log(errors);
+          const errorMessage = "Username or Password is incorrect";
+          setError('password', { message: errorMessage });
+
+          console.log(errors);
+          return
+        }
         localStorage.setItem('userName', email);
 
         socket.emit('newUser', { email, socketID: socket.id });
@@ -57,6 +66,7 @@ export default function Login() {
   return (
 
     <>
+      {isAuthenticated && <Navigate to={"/posts"}></Navigate>}
       <div className="errorContainer">
         {errors?.email && <p className="fade-in">{errors?.email.message}</p>}
         {errors?.password && <p className="fade-in">{errors?.password.message}</p>}

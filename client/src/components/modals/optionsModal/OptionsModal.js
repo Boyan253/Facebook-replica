@@ -5,7 +5,6 @@ import './optionsmodal.css'
 export function OptionsModal({ closeModal }) {
 
     const { auth } = useContext(AuthContext)
-console.log(auth);
     return (
         <div className="modalContent"  >
             <div className="modal-overlay" onClick={closeModal} >
@@ -20,17 +19,18 @@ console.log(auth);
                             <p>User Id: <strong>{auth._id}</strong></p>
                             <p>
                                 Full Name:
-                                <input type="text" value={ auth.username } />
+                                <input type="text" value={auth.username} />
                             </p>
-                            <p>Email:<input type="text" value={ auth.email } placeholder='Please Add Email'/></p>
-                            <p>Phone Number: <strong><input type="number" name="" id="" /></strong></p>
+                            <p>Email:<input type="text" value={auth.email} placeholder='Please Add Email(Optional)' /></p>
+                            <p>Country: <strong><input type="text" placeholder='Please Add Country(Optional)' /></strong></p>
                             <p>
-                                Address:
-                                <strong><input type="text" /></strong>
+                                City:
+                                <strong><input type="text" placeholder='Please Add City(Optional)' /></strong>
                             </p>
-
+                            <p>Relationship: <label htmlFor="Single">Single</label><input type="radio" value='Single' name='Single' />   | <label htmlFor="inRelation">inRelationShip</label><input type="radio" value='Married' /></p>
                             <p>Created on: <strong>{auth.createdAt}</strong></p>
                             <p>Modified on: <strong>{auth.updatedAt}</strong></p>
+                            <button className='button-upload'>Submit</button>
                         </div>
                     </div>
                 </div>

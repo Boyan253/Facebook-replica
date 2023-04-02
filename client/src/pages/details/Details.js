@@ -5,7 +5,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Topbar from "../../components/topbar/Topbar"
 import { AuthContext } from "../../contexts/AuthContext"
 import * as postService from "../../service/postService"
+import * as commentsService from "../../service/commentService"
+
 import "./details.css"
+import CommentSection from "../../components/commentSection/CommentSection";
 
 export function Details({ posts, postDeleteHandler }) {
     const navigate = useNavigate()
@@ -22,6 +25,21 @@ export function Details({ posts, postDeleteHandler }) {
             })
     }, [postId, navigate])
 
+    const [commentText, setCommentText] = useState("");
+    const [comment, setComments] = useState([]);
+
+    const handleCommentSubmit = async (event) => {
+        event.preventDefault();
+        if (commentText.trim() !== "") {
+            const result = await commentsService.addComment(postId, { username: auth.username, comment })
+            setComments([...comment, { text: commentText }]);
+            setCommentText("");
+        }
+    };
+
+    const handleCommentChange = (event) => {
+        setCommentText(event.target.value);
+    };
 
     return (
         <>
@@ -61,7 +79,8 @@ export function Details({ posts, postDeleteHandler }) {
 
 
                     </div >
-                    <p>Comments: There are no comments</p>
+
+                    {auth._id && auth._id !== post.owner && (<CommentSection handleCommentSubmit={handleCommentSubmit} handleCommentChange={handleCommentChange} comment={comment} commentText={commentText}></CommentSection>)}
                 </div >
             </div >
         </>)

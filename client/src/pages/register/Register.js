@@ -3,7 +3,7 @@ import * as userService from '../../service/userService'
 import { useContext } from 'react'
 import Topbar from "../../components/topbar/Topbar";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import socketIO from 'socket.io-client'
 
@@ -12,8 +12,8 @@ const socket = socketIO.connect('http://localhost:3005');
 
 export default function Register() {
   const navigate = useNavigate()
-  const { userRegister } = useContext(AuthContext)
-  let { register, handleSubmit, formState: { errors }, getValues } = useForm({
+  const { userRegister, isAuthenticated } = useContext(AuthContext)
+  let { register, handleSubmit, formState: { errors }, getValues, setError } = useForm({
     defaultValues: {
       username: "",
       email: "",
@@ -58,7 +58,14 @@ export default function Register() {
         userRegister(authData)
         const email = data.email
         localStorage.setItem('userName', email);
+        if (authData.errors) {
+          console.log(errors);
+          const errorMessage = "Username or Email is already taken";
+          setError('password', { message: errorMessage });
 
+          console.log(errors);
+          return
+        }
         socket.emit('newUser', { email, socketID: socket.id });
         navigate('/posts')
       }).catch(() => {
@@ -67,6 +74,7 @@ export default function Register() {
   };
   return (
     <>
+      {isAuthenticated && <Navigate to={"/posts"}></Navigate>}
       <Topbar></Topbar>
       <div className="errorContainer">
         {errors?.username && <p className="fade-in">{errors.username.message}</p>}

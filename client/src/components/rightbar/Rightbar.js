@@ -8,7 +8,6 @@ export default function Rightbar({ profile, user }) {
   const { auth } = useContext(AuthContext)
   const [friends, setFriends] = useState([])
   const [followed, setFollowed] = useState(auth.friends?.includes(user?.id))
-  console.log(auth);
   useEffect(() => {
     if (auth.friends?.includes(user.id)) {
       setFollowed(data => data = true)
@@ -17,7 +16,6 @@ export default function Rightbar({ profile, user }) {
 
     }
   }, [user])
-  console.log(followed);
   useEffect(() => {
     const getFriends = async () => {
       try {

@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Topbar({user, openModal}) {
-  console.log(openModal);
+export default function Topbar({ user, openModal }) {
   //isAuthenticated
   const { auth } = useContext(AuthContext)
   return (
@@ -44,7 +43,7 @@ export default function Topbar({user, openModal}) {
             {/* <span className="topbarIconBadge">2</span> */}
           </div>
           <div className="topbarIconItem">
-            <Settings onClick={openModal}></Settings> 
+            <Settings onClick={openModal}></Settings>
             {/* <span className="topbarIconBadge">20</span> */}
           </div>
         </div>)}
