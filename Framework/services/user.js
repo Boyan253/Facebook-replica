@@ -29,6 +29,7 @@ async function login(email, password) {
 
     if (!hashMatch) {
         throw new Error('Incorrect Email or Password')
+        
 
     }
     console.log(user);
@@ -55,7 +56,7 @@ async function followUser(userToFollow, userId) {
     } else {
         user.friends.push(userToFollow)
         await user.save()
-        
+
     }
     return user
 
