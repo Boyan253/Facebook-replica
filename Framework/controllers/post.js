@@ -224,11 +224,12 @@ router.get('/profile/:userId', async (req, res) => {
 //Posts getComments  
 router.get('/posts/:postId/comments', async (req, res) => {
     try {
-        const post = await Post.findOne({ gameId: req.params.postId });
+        const post = await Post.findOne({ _id: req.params.postId }).sort()
         if (!post || !post.comments) {
             res.json([]);
         } else {
             console.log(post.comments);
+
             res.json(post.comments);
         }
     } catch (err) {
@@ -241,7 +242,7 @@ router.get('/posts/:postId/comments', async (req, res) => {
 //Posts postComments  
 router.post('/posts/:postId/comments', async (req, res) => {
     try {
-        const post = await Post.findOne({ gameId: req.params.postId });
+        const post = await Post.findOne({ _id: req.params.postId });
         if (!post) {
             return res.status(404).send('Post not found');
         }
