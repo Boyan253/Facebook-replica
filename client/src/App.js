@@ -19,8 +19,8 @@ function App() {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
   const { auth } = useContext(AuthContext)
-
   const [like, setLike] = useState(0)
+
   const likePostHandler = (postId, userId) => {
     const result = fetch(`http://localhost:3005/like/${postId}`, {
       method: 'POST',
@@ -37,7 +37,6 @@ function App() {
       )
     window.location.reload()
   }
-
 
   useEffect(() => {
     postService.getAllPosts()
@@ -102,13 +101,13 @@ function App() {
         userData.image = btoa(binaryData);
 
         await postService.editPost(postId, userData, auth);
-
         navigate(`/posts/${postId}`);
+        window.location.reload()
 
       }
       reader.readAsDataURL(userData.image);
     } else {
-      //TODO edit filltering pravi posledno 27.03.2023:12:27 v chas po IT
+      //TODO edit filltering pravi posledno 27.03.2023:12:27 v lekciqta za aksiomni mutacii
       await postService.editPost(postId, userData, auth).then(response => {
       })
 

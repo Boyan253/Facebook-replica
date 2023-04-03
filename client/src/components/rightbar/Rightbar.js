@@ -8,6 +8,7 @@ export default function Rightbar({ profile, user }) {
   const { auth } = useContext(AuthContext)
   const [friends, setFriends] = useState([])
   const [followed, setFollowed] = useState(auth.friends?.includes(user?.id))
+  console.log(auth.friends);
   useEffect(() => {
     if (auth.friends?.includes(user.id)) {
       setFollowed(data => data = true)
@@ -15,7 +16,7 @@ export default function Rightbar({ profile, user }) {
       setFollowed(false)
 
     }
-  }, [user, auth])
+  }, [user])
   useEffect(() => {
     const getFriends = async () => {
       try {
@@ -39,6 +40,10 @@ export default function Rightbar({ profile, user }) {
           headers: { "content-type": "application/json", },
           body: JSON.stringify({ userId: auth._id })
         })
+        auth.friends = auth.friends.filter(id => id !== user.id);
+        const authData = JSON.parse(localStorage.getItem('auth'));
+        authData.friends = auth.friends;
+        localStorage.setItem('auth', JSON.stringify(authData));
       } else {
         const response = await fetch(`http://localhost:3005/follow/${user.id}`, {
           method: "PUT",
@@ -47,7 +52,11 @@ export default function Rightbar({ profile, user }) {
           },
           body: JSON.stringify({ userId: auth._id })
           //lastly here \/
-        }).then(res => res.json()).then(data => user = data.user)
+        }).then(res => res.json()).then(data => {
+          console.log(data);
+          auth.friends.push(...data.friends)
+          localStorage.setItem('auth', JSON.stringify(auth));
+        })
       }
 
     } catch (err) {
