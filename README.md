@@ -19,6 +19,7 @@ Users can view and update their own profile information, including their name, e
 **Recommended Friends Modal**
 The social network displays a recommended friends modal that suggests other users for the logged-in user to follow. This feature is implemented using a GET request to the server with the logged-in user's ID. The server returns a list of other users who are not already friends with the logged-in user. The front-end then displays the list of suggested users in the recommended friends modal.
 
+<h2>Guide</h2>
 Getting Started
 To run the social network, first clone the repository to your local machine. Then, navigate to the client directory and run npm i to install the required dependencies. Next, navigate to the framework directory and run npm i to install the required dependencies for the server. You'll need to have MongoDB installed and running on your machine to run the server. Once everything is set
 up, start the server by running npm start in the framework directory and start the client by running npm start in the client directory.
