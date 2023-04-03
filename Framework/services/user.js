@@ -74,6 +74,7 @@ async function unfollowUser(userToUnfollow, userId) {
         if (user.friends.includes(userToUnfollow)) {
             await user.updateOne({ $pull: { friends: userToUnfollow } });
             await user.save()
+            return user
         }
     }
 }

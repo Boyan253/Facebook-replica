@@ -12,18 +12,12 @@ async function start() {
 
 
 
-
     expressConfig(app)
     await databaseConfig(app)
     routesConfig(app)
 
     const http = require('http').createServer(app);
     const PORT = 3005;
-
-
-
-
-
 
 
     //New imports
