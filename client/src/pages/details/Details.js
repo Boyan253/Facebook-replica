@@ -53,6 +53,7 @@ export function Details({ posts, postDeleteHandler }) {
     const handleCommentChange = (event) => {
         setCommentText(event.target.value);
     };
+    console.log(comment);
 
     return (
         <>

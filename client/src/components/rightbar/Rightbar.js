@@ -15,7 +15,7 @@ export default function Rightbar({ profile, user }) {
       setFollowed(false)
 
     }
-  }, [user])
+  }, [user, auth])
   useEffect(() => {
     const getFriends = async () => {
       try {

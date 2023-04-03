@@ -75,6 +75,7 @@ export default function Profile({ posts, openModal, likePostHandler }) {
   if (!auth.payload) {
     return <Navigate to={'/login'}></Navigate>
   }
+  console.log(user);
   return (
     <>
       <Topbar user={user} openModal={openModal} />

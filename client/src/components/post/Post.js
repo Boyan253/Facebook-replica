@@ -40,8 +40,8 @@ export default function Post({ post, likePostHandler }) {
         <div className="postBottom">
 
           <div className="postBottomLeft">
-            {isAuthenticated && !isOwner && !isLiked && <> <img className="likeIcon" src="assets/like.png" onClick={(e) => likePostHandler(post?._id, auth._id)} alt="" />
-              <img className="likeIcon" src="assets/heart.png" onClick={(e) => likePostHandler(post?._id, auth._id)} alt="" />
+            {isAuthenticated && !isOwner && !isLiked && <> <img className="likeIcon" src="/assets/like.png" onClick={(e) => likePostHandler(post?._id, auth._id)} alt="" />
+              <img className="likeIcon" src="/assets/heart.png" onClick={(e) => likePostHandler(post?._id, auth._id)} alt="" />
             </>
             }
             <span className="postLikeCounter">{likes} people liked it</span>
