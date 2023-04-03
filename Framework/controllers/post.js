@@ -147,7 +147,7 @@ router.put('/follow/:userId', async (req, res) => {
     const { userId } = req.body
     const user = await followUser(userToFollow, userId)
 
-    res.json({ user })
+    res.json({ friends: user.friends })
 
 })
 
@@ -158,8 +158,8 @@ router.put('/unfollow/:userId', async (req, res) => {
     const userToFollow = req.params.userId
     const { userId } = req.body
     const user = await unfollowUser(userToFollow, userId)
-
-    res.json({ user })
+    console.log(user);
+    res.json({ friends: user.friends })
 
 })
 
