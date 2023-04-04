@@ -19,7 +19,7 @@ export default function Home({ posts, like, likePostHandler, dislikePostHandler,
     const fetchUser = async () => {
 
       if (auth.payload) {
-        const response = await fetch(`http://localhost:3005/users/${auth._id}`, {
+        const response = await fetch(`www.thefuture.com/users/${auth._id}`, {
           headers: { 'authorization': auth.payload }
         }).catch((err) => {
           console.log(err);
