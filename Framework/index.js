@@ -49,7 +49,7 @@ async function start() {
 
     const socketIO = require('socket.io')(http, {
         cors: {
-            origin: "http://localhost:3000"
+            origin: "mongodb+srv://bobosa2534:Bandarara0506@cluster0.lh5vqlc.mongodb.net/?retryWrites=true&w=majority"
         }
     });
 
