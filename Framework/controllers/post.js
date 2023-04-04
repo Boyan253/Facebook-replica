@@ -2,6 +2,7 @@ const Post = require('../models/Post');
 const router = require('express').Router()
 const User = require('../models/User');
 const { updatePost, deletePost, likePost, dislikePost } = require('../services/post')
+const userService = require('../services/user')
 const Chat = require('../models/Chat');
 const mongoose = require('mongoose')
 const multer = require('multer');
@@ -237,6 +238,46 @@ router.get('/profile/:userId', async (req, res) => {
 
 })
 
+//Edit Profile
+router.put('/profile/:userId', async (req, res) => {
+    const token = req.headers.authorization;
+    console.log(token);
+    if (!token) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userId = req.params.userId;
+    const { image, backgroundImage, fullName, email, city, country, relationship } = req.body;
+    // construct the updated data object
+    const updatedData = {};
+
+    if (typeof image !== "object" && image !== undefined) {
+        if (image) updatedData.image = `data:image/png;base64,${image}`;
+    }
+    if (typeof backgroundImage !== "object" && backgroundImage !== undefined) {
+        if (backgroundImage) updatedData.backgroundImage = `data:image/png;base64,${backgroundImage}`;
+    }
+
+    if (email) updatedData.email = email;
+    if (city) updatedData.city = city;
+    if (country) updatedData.country = country;
+    if (fullName) updatedData.username = fullName;
+    if (fullName) updatedData.relationship = relationship;
+
+    try {
+        const updatedUser = await userService.editProfile(userId, updatedData);
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 //Posts getComments  
 router.get('/posts/:postId/comments', async (req, res) => {
     try {
@@ -295,7 +336,7 @@ router.get('/', async (req, res) => {
             : await User.findOne({ username: username })
 
 
-        const reworkedUser = { id: user._id.toString(), email: user.email, username: user.username, profilePicture: user.profilePicture }
+        const reworkedUser = { id: user._id.toString(), email: user.email, username: user.username, profilePicture: user.profilePicture, backgroundImage: user.backgroundImage, city: user.city, country: user.country, relationship: user.relationship }
 
         res.json({ reworkedUser })
 
@@ -322,7 +363,7 @@ router.get('/users/:userId', async (req, res) => {
     const currentUser = await User.findById(req.params.userId)
 
     const reworkedUser = {
-        id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends
+        id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends, backgroundImage: currentUser.backgroundImage, city: currentUser.city, country: currentUser.country, relationship: currentUser.relationship
     }
     console.log(reworkedUser);
 
