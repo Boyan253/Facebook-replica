@@ -29,7 +29,7 @@ async function login(email, password) {
 
     if (!hashMatch) {
         throw new Error('Incorrect Email or Password')
-        
+
 
     }
     console.log(user);
@@ -79,12 +79,32 @@ async function unfollowUser(userToUnfollow, userId) {
     }
 }
 
+const editProfile = async (userId, data) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) throw new Error("User not found");
 
+        user.profilePicture = data.image || user.profilePicture;
+        user.backgroundImage = data.backgroundImage || user.backgroundImage
+        user.username = data.fullName || user.username;
+        user.email = data.email || user.email;
+        user.city = data.city || user.city;
+        user.country = data.country || user.country;
+        user.relationship = data.relationship || user.relationship
+
+        const updatedUser = await user.save();
+
+        return updatedUser;
+    } catch (error) {
+        throw new Error(error.message);
+    }
+};
 
 
 module.exports = {
     login,
     register,
     followUser,
-    unfollowUser
+    unfollowUser,
+    editProfile
 }
