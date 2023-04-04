@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function Home({ posts, like, likePostHandler }) {
+export default function Home({ posts, like, likePostHandler, dislikePostHandler, openModal }) {
   const { auth } = useContext(AuthContext)
   const [user, setUser] = useState({ reworkedUser: {} });
 
@@ -51,10 +51,10 @@ export default function Home({ posts, like, likePostHandler }) {
 
   return (
     <>
-      <Topbar />
+      <Topbar openModal={openModal} />
       <div className="homeContainer">
         <Sidebar user={user.reworkedUser} />
-        <Feed posts={posts} likePostHandler={likePostHandler} like={like} />
+        <Feed posts={posts} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} like={like} />
         <Rightbar user={user.reworkedUser} />
       </div>
     </>

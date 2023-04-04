@@ -15,6 +15,7 @@ import { Edit } from "./pages/edit/Edit";
 import { RouteGuard } from "./utils/route-guards/RouteGuards";
 import { OptionsModal } from "./components/modals/optionsModal/OptionsModal";
 
+
 function App() {
   const [posts, setPosts] = useState([])
   const navigate = useNavigate()
@@ -33,9 +34,27 @@ function App() {
     }).then(response => response.json())
       .then(data =>
         setLike(data.like)
-
       )
     window.location.reload()
+  }
+
+  const dislikePostHandler = (postId, userId) => {
+    const result = fetch(`http://localhost:3005/dislike/${postId}`, {
+      method: 'POST',
+      headers: {
+        'authorization': auth.payload,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setLike(data.like)
+        window.location.reload()
+      }
+      )
+      .catch(error => console.log(error));
+
   }
 
   useEffect(() => {
@@ -108,8 +127,7 @@ function App() {
       reader.readAsDataURL(userData.image);
     } else {
       //TODO edit filltering pravi posledno 27.03.2023:12:27 v lekciqta za aksiomni mutacii
-      await postService.editPost(postId, userData, auth).then(response => {
-      })
+      await postService.editPost(postId, userData, auth).then(response => { })
 
       navigate(`/posts/${postId}`);
 
@@ -130,12 +148,12 @@ function App() {
     <>
       {isOpen && <OptionsModal isOpen={isOpen} closeModal={closeModal} openModal={openModal}></OptionsModal>}
       <Routes>
-        <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} />}></Route>
+        <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} openModal={openModal} />}></Route>
         <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
         <Route path="/create" element={<RouteGuard><Create postCreateHandler={postCreateHandler}></Create></RouteGuard>}></Route>
         <Route path="/edit/:postId" element={<RouteGuard><Edit postEditHandler={postEditHandler}></Edit></RouteGuard>}></Route>
 
-        <Route path="/profile/:userId" element={<Profile posts={posts} openModal={openModal} likePostHandler={likePostHandler}></Profile>}></Route>
+        <Route path="/profile/:userId" element={<Profile posts={posts} openModal={openModal} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler}> </Profile>}></Route>
         <Route path="/login" element={<Login ></Login>}></Route>
         <Route path="/logout" element={<Logout></Logout>}></Route>
 

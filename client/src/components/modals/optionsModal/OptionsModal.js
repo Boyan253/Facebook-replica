@@ -27,7 +27,20 @@ export function OptionsModal({ closeModal }) {
                                 City:
                                 <strong><input type="text" placeholder='Please Add City(Optional)' /></strong>
                             </p>
-                            <p>Relationship: <label htmlFor="Single">Single</label><input type="radio" value='Single' name='Single' />   | <label htmlFor="inRelation">inRelationShip</label><input type="radio" value='Married' /></p>
+                            <p>Relationship:
+                                <label htmlFor="Single">
+                                    Single
+                                    <input type="radio" value="Single" name="relationship" />
+                                </label>
+
+                                |
+
+                                <label htmlFor="inRelation">
+                                    inRelationship
+                                    <input type="radio" value="inRelationship" name="relationship" />
+                                </label>
+                            </p>
+
                             <p>Created on: <strong>{auth.createdAt}</strong></p>
                             <p>Modified on: <strong>{auth.updatedAt}</strong></p>
                             <button className='button-upload'>Submit</button>

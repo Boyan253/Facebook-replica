@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Post({ post, likePostHandler }) {
+export default function Post({ post, likePostHandler, dislikePostHandler }) {
   const { isAuthenticated, auth } = useContext(AuthContext)
   const [likes] = useState(post ? post.likes.length : 0)
   let isLiked = false
@@ -44,6 +44,7 @@ export default function Post({ post, likePostHandler }) {
               <img className="likeIcon" src="/assets/heart.png" onClick={(e) => likePostHandler(post?._id, auth._id)} alt="" />
             </>
             }
+            {isLiked && (<img className="likeIcon" src="/assets/dislike.png" onClick={(e) => dislikePostHandler(post?._id, auth._id)} alt="" />)}
             <span className="postLikeCounter">{likes} people liked it</span>
 
           </div>
