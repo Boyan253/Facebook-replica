@@ -19,7 +19,7 @@ module.exports = async (app) => {
             console.error(err);
         })
     } catch (error) {
-        console.error('Error  connecting to database')
+        console.error('Error connecting to database')
         console.error(error);
         process.exit(1)
     }
