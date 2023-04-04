@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Topbar({ user, openModal }) {
-  //isAuthenticated
   const { auth } = useContext(AuthContext)
   return (
     <div className="topbarContainer">

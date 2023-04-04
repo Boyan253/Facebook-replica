@@ -78,7 +78,7 @@ export default function Profile({ posts, openModal, likePostHandler, dislikePost
   console.log(user);
   return (
     <>
-      <Topbar user={user} openModal={openModal} />
+      <Topbar user={user.reworkedUser} openModal={openModal} />
       <div className="profile">
         <Sidebar user={user.reworkedUser} />
         <div className="profileRight">

@@ -8,9 +8,8 @@ export default function Rightbar({ profile, user }) {
   const { auth } = useContext(AuthContext)
   const [friends, setFriends] = useState([])
   const [followed, setFollowed] = useState(auth.friends?.includes(user?.id))
-  console.log(auth.friends);
   useEffect(() => {
-    if (auth.friends?.includes(user.id)) {
+    if (auth.friends?.includes(user?.id)) {
       setFollowed(data => data = true)
     } else {
       setFollowed(false)
@@ -92,15 +91,15 @@ export default function Rightbar({ profile, user }) {
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">New York</span>
+            <span className="rightbarInfoValue">{user?.city || '((Not Chosen)'}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">Madrid</span>
+            <span className="rightbarInfoValue">{user?.country || '(Not Chosen)'}</span>
           </div>
           <div className="rightbarInfoItem">
             <span className="rightbarInfoKey">Relationship:</span>
-            <span className="rightbarInfoValue">Single</span>
+            <span className="rightbarInfoValue">{user?.relationship || '(Not Chosen)'}</span>
           </div>
         </div>
         <h4 className="rightbarTitle">User friends</h4>

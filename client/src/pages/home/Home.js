@@ -51,7 +51,7 @@ export default function Home({ posts, like, likePostHandler, dislikePostHandler,
 
   return (
     <>
-      <Topbar openModal={openModal} />
+      <Topbar openModal={openModal} user={user.reworkedUser} />
       <div className="homeContainer">
         <Sidebar user={user.reworkedUser} />
         <Feed posts={posts} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} like={like} />

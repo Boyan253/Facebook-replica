@@ -29,3 +29,17 @@ export async function logout(accessToken) {
         console.log(err);
     }
 }
+
+export async function editProfile(userId, data, auth) {
+    console.log(data, userId);
+    const result = await fetch(`${baseUrl}/profile/${userId}`, {
+        method: 'PUT',
+        headers: {
+            "content-type": "application/json",
+            "authorization": auth.payload
+        },
+        body: JSON.stringify(data)
+
+    })
+    return result
+}

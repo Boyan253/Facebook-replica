@@ -5,6 +5,7 @@ import Register from "./pages/register/Register";
 import ErrorPage from "./pages/404/404"
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import * as postService from './service/postService'
+import * as userService from './service/userService'
 import { Create } from "./pages/create/Create";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
@@ -120,12 +121,14 @@ function App() {
         userData.image = btoa(binaryData);
 
         await postService.editPost(postId, userData, auth);
+        console.log(userData);
         navigate(`/posts/${postId}`);
         window.location.reload()
 
       }
       reader.readAsDataURL(userData.image);
     } else {
+
       //TODO edit filltering pravi posledno 27.03.2023:12:27 v lekciqta za aksiomni mutacii
       await postService.editPost(postId, userData, auth).then(response => { })
 
@@ -134,6 +137,65 @@ function App() {
     }
 
   };
+
+  const profileEditHandler = async (formData) => {
+    const userData = formData
+    console.log(userData.image.length === 0 && userData.backgroundImage.length === 0);
+
+    if (userData.image && userData.image.length > 0) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const filePath = e.target.result;
+        const imageData = filePath.toString();
+        const base64Data = imageData.split(",")[1];
+
+        const binaryData = atob(base64Data);
+        userData.image = btoa(binaryData);
+        const newAuth = JSON.parse(localStorage.getItem('auth'));
+        newAuth.profilePicture = `data:image/png;base64,${userData.image}`;
+        localStorage.setItem('auth', JSON.stringify(newAuth));
+        await userService.editProfile(auth._id, userData, auth);
+        console.log(userData);
+        navigate(`/profile/${auth._id}`);
+        window.location.reload();
+      };
+      reader.readAsDataURL(userData.image[0]);
+    }
+
+    if (userData.backgroundImage && userData.backgroundImage.length > 0) {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const filePath = e.target.result;
+        const imageData = filePath.toString();
+        const base64Data = imageData.split(",")[1];
+
+        const binaryData = atob(base64Data);
+        userData.backgroundImage = btoa(binaryData);
+        const newAuth = JSON.parse(localStorage.getItem('auth'));
+        newAuth.backgroundImage = `data:image/png;base64,${userData.backgroundImage}`;
+        localStorage.setItem('auth', JSON.stringify(newAuth));
+
+
+        await userService.editProfile(auth._id, userData, auth);
+        console.log(userData);
+        navigate(`/profile/${auth._id}`);
+        window.location.reload();
+      };
+      reader.readAsDataURL(userData.backgroundImage[0]);
+    }
+
+    if (userData.image.length === 0 && userData.backgroundImage.length === 0) {
+      console.log('going');
+      await userService.editProfile(auth._id, userData, auth);
+      console.log(userData);
+      navigate(`/profile/${auth._id}`);
+      window.location.reload();
+    }
+  };
+
+
+
+
   const postDeleteHandler = (postId) => {
     //TODO delete filltering pravi posledno, dovurshi go
     postService.deletePost(postId).then(response => {
@@ -146,7 +208,7 @@ function App() {
 
   return (
     <>
-      {isOpen && <OptionsModal isOpen={isOpen} closeModal={closeModal} openModal={openModal}></OptionsModal>}
+      {isOpen && <OptionsModal isOpen={isOpen} closeModal={closeModal} openModal={openModal} profileEditHandler={profileEditHandler}></OptionsModal>}
       <Routes>
         <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} openModal={openModal} />}></Route>
         <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>

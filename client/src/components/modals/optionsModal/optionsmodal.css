@@ -13,7 +13,11 @@
 
 .modal {
   box-sizing: content-box;
-  background: linear-gradient(132deg, rgb(34, 181, 254) 0.00%, rgb(255, 186, 214) 100.00%);
+  background: linear-gradient(
+    132deg,
+    rgb(34, 181, 254) 0%,
+    rgb(255, 186, 214) 100%
+  );
   padding: 20px;
   border: 1px solid rgb(59, 44, 44);
   max-width: 80%;
@@ -35,5 +39,12 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: bold;
- text-align: center;
+  text-align: center;
+}
+
+.image-option-modal {
+  width: 100%;
+  max-width: 450px;
+  max-height: 450px;
+  -webkit-backface-visibility: hidden;
 }
