@@ -1,6 +1,6 @@
 import * as  request from "./requester/requester";
 
-let baseUrl = 'http://localhost:3005'
+let baseUrl = 'www.thefuture.com'
 
 
 export async function register(data) {
