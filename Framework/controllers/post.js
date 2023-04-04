@@ -1,7 +1,7 @@
 const Post = require('../models/Post');
 const router = require('express').Router()
 const User = require('../models/User');
-const { updatePost, deletePost, likePost } = require('../services/post')
+const { updatePost, deletePost, likePost, dislikePost } = require('../services/post')
 const Chat = require('../models/Chat');
 const mongoose = require('mongoose')
 const multer = require('multer');
@@ -53,8 +53,9 @@ router.post('/posts', async (req, res) => {
 router.put('/posts/:postId', async (req, res) => {
 
     const token = req.headers.authorization;
-    if (token == 'undefined') {
-        return res.status(401)
+    console.log(token);
+    if (token == undefined) {
+        return res.status(401).json('no Auth')
     }
     const { location, description, image, owner, ownerName, title, tags } = req.body;
     let imageUrl
@@ -181,6 +182,21 @@ router.post('/like/:postId', async (req, res) => {
 
 })
 
+//Dislike 
+router.post('/dislike/:postId', async (req, res) => {
+    const { userId } = req.body;
+    const postId = req.params.postId;
+    try {
+        const dislike = await dislikePost(postId, userId);
+        res.json({ dislike });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Could not dislike post' });
+    }
+});
+
+
+
 //Delete
 
 router.get('/delete/:postId', async (req, res) => {
@@ -206,7 +222,7 @@ router.get('/profile/:userId', async (req, res) => {
         return res.status(400).json({ error: 'Invalid profile' });
 
     }
-    if (token == 'undefined') {
+    if (token == undefined) {
         console.log('Missing Auth');
         return res.status(401)
     }
