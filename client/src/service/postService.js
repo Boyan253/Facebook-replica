@@ -1,6 +1,6 @@
 import * as  request from "./requester/requester";
 
-let baseUrl = 'http://www.thefuture.com:3005/'
+let baseUrl = 'https://thefuture-eta.vercel.app/'
 
 
 export async function getAllPosts() {
