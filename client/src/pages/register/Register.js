@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import socketIO from 'socket.io-client'
 
 import { AuthContext } from "../../contexts/AuthContext";
-const socket = socketIO.connect('www.thefuture.com');
+const socket = socketIO.connect('https://www.thefuture.com');
 
 export default function Register() {
   const navigate = useNavigate()
