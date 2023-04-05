@@ -49,7 +49,7 @@ async function start() {
 
     const socketIO = require('socket.io')(http, {
         cors: {
-            origin: "www.thefuture.com"
+            origin: "https://www.thefuture.com"
         }
     });
 
