@@ -17,6 +17,7 @@ export async function createPost(userData) {
 
     const response = await fetch(`${baseUrl}posts`, {
         method: 'POST',
+         mode: 'no-cors',
         headers: {
             "content-type": "application/json"
         },
@@ -36,6 +37,7 @@ export async function getOnePost(postId) {
 
 export async function editPost(postId, data, auth) {
     const result = await fetch(`${baseUrl}posts/${postId}`, {
+         mode: 'no-cors',
         method: 'PUT',
         headers: {
             "content-type": "application/json",
