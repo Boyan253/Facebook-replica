@@ -24,7 +24,7 @@ function App() {
   const [like, setLike] = useState(0)
 
   const likePostHandler = (postId, userId) => {
-    const result = fetch(`www.thefuture.com/like/${postId}`, {
+    const result = fetch(`https://www.thefuture.com/like/${postId}`, {
       method: 'POST',
       headers: {
         'authorization': auth.payload,
@@ -40,7 +40,7 @@ function App() {
   }
 
   const dislikePostHandler = (postId, userId) => {
-    const result = fetch(`www.thefuture.com/dislike/${postId}`, {
+    const result = fetch(`https://www.thefuture.com/dislike/${postId}`, {
       method: 'POST',
       headers: {
         'authorization': auth.payload,
