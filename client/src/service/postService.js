@@ -1,6 +1,6 @@
 import * as  request from "./requester/requester";
 
-let baseUrl = 'www.thefuture.com/'
+let baseUrl = 'https://www.thefuture.com/'
 
 
 export async function getAllPosts() {
