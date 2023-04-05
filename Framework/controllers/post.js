@@ -83,7 +83,7 @@ router.put('/posts/:postId', async (req, res) => {
 
 //Home
 router.get("/posts", async (req, res) => {
-
+  res.setHeader('Access-Control-Allow-Origin', '*');
     try {
 
         let posts = await Post.find({}).sort({ createdAt: 'desc' })
