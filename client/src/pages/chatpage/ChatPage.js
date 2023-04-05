@@ -5,7 +5,7 @@ import ChatFooter from '../../components/chatfooter/ChatFooter';
 import './chatpage.css'
 import socketIO from 'socket.io-client'
 
-const socket = socketIO.connect('https://www.thefuture.com');
+const socket = socketIO.connect('http://www.thefuture.com:3005');
 const ChatPage = () => {
     const [messages, setMessages] = useState([]);
 
