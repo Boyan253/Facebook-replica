@@ -1,5 +1,5 @@
 import * as  request from "./requester/requester";
-let baseUrl = 'http://localhost:3005/posts/'
+let baseUrl = 'www.thefuture.com/posts/'
 
 
 export async function addComment(postId, data) {
