@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { useForm } from 'react-hook-form'
 import socketIO from 'socket.io-client'
 
-const socket = socketIO.connect('www.thefuture.com');
+const socket = socketIO.connect('https://www.thefuture.com');
 
 export default function Login() {
   const { userLogin, isAuthenticated } = useContext(AuthContext)
