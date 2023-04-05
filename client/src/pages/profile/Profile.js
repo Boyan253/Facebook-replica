@@ -20,7 +20,7 @@ export default function Profile({ posts, openModal, likePostHandler, dislikePost
         console.log('is it undefined?');
         return navigate('/login')
       } else {
-        const response = await fetch(`www.thefuture.com/profile/${userId}`, {
+        const response = await fetch(`https://www.thefuture.com/profile/${userId}`, {
           headers: { 'authorization': auth.payload }
         }).catch((err) => {
           console.log(err);
@@ -47,7 +47,7 @@ export default function Profile({ posts, openModal, likePostHandler, dislikePost
         return navigate('/login')
       }
 
-      const response = await fetch(`www.thefuture.com/users/${userId}`, {
+      const response = await fetch(`https://www.thefuture.com/users/${userId}`, {
         headers: { 'authorization': auth.payload }
       }).catch((err) => {
         console.log(err);
