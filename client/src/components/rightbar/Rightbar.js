@@ -20,7 +20,7 @@ export default function Rightbar({ profile, user }) {
     const getFriends = async () => {
       try {
         if (user.id) {
-          const response = await fetch(`http://localhost:3005/friends/${user.id}`)
+          const response = await fetch(`www.thefuture.com/friends/${user.id}`)
           const friendList = await response.json()
           setFriends(friendList)
         }
@@ -34,7 +34,7 @@ export default function Rightbar({ profile, user }) {
   const handleFollowClick = async () => {
     try {
       if (followed) {
-        const response = await fetch(`http://localhost:3005/unfollow/${user.id}`, {
+        const response = await fetch(`www.thefuture.com/unfollow/${user.id}`, {
           method: "PUT",
           headers: { "content-type": "application/json", },
           body: JSON.stringify({ userId: auth._id })
@@ -44,7 +44,7 @@ export default function Rightbar({ profile, user }) {
         authData.friends = auth.friends;
         localStorage.setItem('auth', JSON.stringify(authData));
       } else {
-        const response = await fetch(`http://localhost:3005/follow/${user.id}`, {
+        const response = await fetch(`www.thefuture.com/follow/${user.id}`, {
           method: "PUT",
           headers: {
             "content-type": "application/json"
