@@ -5,10 +5,8 @@ import Topbar from "../../components/topbar/Topbar";
 
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import socketIO from 'socket.io-client'
 
 import { AuthContext } from "../../contexts/AuthContext";
-const socket = socketIO.connect('http://localhost:3005');
 
 export default function Register() {
   const navigate = useNavigate()
@@ -66,7 +64,6 @@ export default function Register() {
           console.log(errors);
           return
         }
-        socket.emit('newUser', { email, socketID: socket.id });
         navigate('/posts')
       }).catch(() => {
         navigate('/404')

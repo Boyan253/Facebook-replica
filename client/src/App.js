@@ -22,6 +22,7 @@ function App() {
   const navigate = useNavigate()
   const { auth } = useContext(AuthContext)
   const [like, setLike] = useState(0)
+  const [loading, setLoading] = useState(true);
 
   const likePostHandler = (postId, userId) => {
     const result = fetch(`http://localhost:3005/like/${postId}`, {
@@ -61,6 +62,7 @@ function App() {
   useEffect(() => {
     postService.getAllPosts()
       .then(posts => {
+        setLoading(false);
         setPosts(posts)
       }
       )
@@ -193,9 +195,6 @@ function App() {
     }
   };
 
-
-
-
   const postDeleteHandler = (postId) => {
     //TODO delete filltering pravi posledno, dovurshi go
     postService.deletePost(postId).then(response => {
@@ -210,7 +209,7 @@ function App() {
     <>
       {isOpen && <OptionsModal isOpen={isOpen} closeModal={closeModal} openModal={openModal} profileEditHandler={profileEditHandler}></OptionsModal>}
       <Routes>
-        <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} openModal={openModal} />}></Route>
+        <Route path="/posts" element={<Home loading={loading} posts={posts} like={like} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} openModal={openModal} />}></Route>
         <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
         <Route path="/create" element={<RouteGuard><Create postCreateHandler={postCreateHandler}></Create></RouteGuard>}></Route>
         <Route path="/edit/:postId" element={<RouteGuard><Edit postEditHandler={postEditHandler}></Edit></RouteGuard>}></Route>

@@ -5,9 +5,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { useForm } from 'react-hook-form'
-import socketIO from 'socket.io-client'
 
-const socket = socketIO.connect('http://localhost:3005');
+
+
 
 export default function Login() {
   const { userLogin, isAuthenticated } = useContext(AuthContext)
@@ -53,7 +53,6 @@ export default function Login() {
         }
         localStorage.setItem('userName', email);
 
-        socket.emit('newUser', { email, socketID: socket.id });
         navigate('/posts')
       })
       .catch((err) => {

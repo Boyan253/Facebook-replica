@@ -1,4 +1,35 @@
 .homeContainer{
     display: flex;
     width: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: relative;
 }
+
+.homeContainer.loading .spinner { 
+    display: block;
+}
+
+.homeContainer.loaded {
+    opacity: 1;
+  }
+
+.spinner {
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #09f;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
