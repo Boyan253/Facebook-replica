@@ -76,30 +76,21 @@ async function start() {
 
         //Listens when a new user joins the server
         socket.on('newUser', (data) => {
-            // Check if the user already exists in the users array
-            const userExists = users.some((user) => user.email === data.email);
-        
-            if (userExists) {
-                // Send the list of active users back to the client
-                socketIO.emit('newUserResponse', users);
-            } else {
-                // Add the new user to the array of active users
-                const newUser = { ...data, id: socket.id };
-                users.push(newUser);
-                socketIO.emit('newUserResponse', users);
-            }
-            console.log(users);
-        });
-        
-        
-        socket.on('user-disconnect', (userId) => {
-            console.log(`User with ID ${userId} has disconnected`);
-          
-            users = users.filter((user) => user.id !== userId);
-          
+            //Adds the new user to the list of users
+            users.push(data);
+
             socketIO.emit('newUserResponse', users);
-          });
-          
+        });
+
+        socket.on('user-disconnect', () => {
+            console.log('🔥: A user disconnected');
+
+            users = users.filter((user) => user.socketID !== socket.id);
+            // console.log(users);
+
+            socketIO.emit('newUserResponse', users);
+            socket.disconnect();
+        });
     });
 
     app.get('/messages', async (req, res) => {
