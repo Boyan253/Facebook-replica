@@ -39,7 +39,7 @@ export default function Topbar({ user, openModal }) {
           </div>
           <div className="topbarIconItem">
             <Link className={'a'} to="/chat"><Chat></Chat></Link>
-            <span className="topbarIconBadge">2</span>
+            {/* <span className="topbarIconBadge">2</span> */}
           </div>
           <div className="topbarIconItem">
             <Settings onClick={openModal}></Settings>

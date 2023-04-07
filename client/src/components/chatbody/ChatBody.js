@@ -1,25 +1,11 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+
 const ChatBody = ({ messages }) => {
-  const [socket, setSocket] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const newSocket = io('http://localhost:3005');
-    setSocket(newSocket);
-
-    // Clean up function to disconnect socket on unmount
-    return () => {
-      newSocket.disconnect();
-    };
-  }, []);
-
   const handleLeaveChat = () => {
-    socket.emit('user-disconnect', socket.id);
     navigate('/posts');
   };
-  
   return (
     <>
       <header className="chat__mainHeader">
