@@ -5,8 +5,29 @@ const ChatBar = ({ socket }) => {
 
   useEffect(() => {
     socket.on('newUserResponse', (data) => {
-      setUsers(data)
+      // Check if user already exists in the array
+      const existingUser = users.find(user => user.email === data.email);
+      if (existingUser) {
+        return;
+      }
+
+      // Add the new user to the array
+      setUsers(prevUsers => {
+        // Filter out any existing users
+        const newUsers = data.filter(newUser => !prevUsers.some(user => user.email === newUser.email));
+
+        // Add the new users to the array
+        return [...prevUsers, ...newUsers];
+      });
+
     });
+    socket.on('user-disconnect', (userId) => {
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+    });
+    return () => {
+      socket.off('newUserResponse');
+      socket.off('user-disconnect');
+    };
   }, [socket, users]);
 
   return (
@@ -23,5 +44,6 @@ const ChatBar = ({ socket }) => {
     </div>
   );
 };
+
 
 export default ChatBar;

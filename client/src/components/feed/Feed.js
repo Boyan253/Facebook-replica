@@ -1,24 +1,35 @@
+import { useState, useEffect } from "react";
 import Post from "../post/Post";
-// import Share from "../share/Share";
 import "./feed.css";
 
 export default function Feed({ posts, user, likePostHandler, dislikePostHandler }) {
-  // Comments
-  // const getComments = () => {
+  const [loading, setLoading] = useState(true);
 
-  // }
-
-
-
+  useEffect(() => {
+    setLoading(false);
+  }, [posts]);
 
   return (
     <div className="feed">
-      <div className="feedWrapper">
-        {/* <Share /> */}
-        {posts.map((post) => (
-          <Post key={post._id} post={post} user={user} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} />
+      {loading && (
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
+      )}
+      <div className={`feedWrapper ${loading ? "blur" : ""}`}>
+        {posts.map((post, index) => (
+          <Post
+            key={post._id}
+            post={post}
+            user={user}
+            likePostHandler={likePostHandler}
+            dislikePostHandler={dislikePostHandler}
+            style={{
+              animationDelay: `${(index + 1) * 0.7}s`,
+            }}
+          />
         ))}
-        {posts.length === 0 && (<p>No Posts</p>)}
+        {posts.length === 0 && <p>No Posts</p>}
       </div>
     </div>
   );

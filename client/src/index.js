@@ -7,6 +7,7 @@ ReactDOM.render(
   <BrowserRouter>
     <AuthProvider>
       <App />
+      
     </AuthProvider>
   </BrowserRouter>,
 
