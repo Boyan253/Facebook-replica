@@ -15,6 +15,7 @@ import ChatPage from "./pages/chatpage/ChatPage";
 import { Edit } from "./pages/edit/Edit";
 import { RouteGuard } from "./utils/route-guards/RouteGuards";
 import { OptionsModal } from "./components/modals/optionsModal/OptionsModal";
+import { FriendsModal } from "./components/modals/friendsModal/FriendsModal";
 
 
 function App() {
@@ -22,9 +23,10 @@ function App() {
   const navigate = useNavigate()
   const { auth } = useContext(AuthContext)
   const [like, setLike] = useState(0)
+  const [loading, setLoading] = useState(true);
 
   const likePostHandler = (postId, userId) => {
-    const result = fetch(`http://www.thefuture.com:3005/like/${postId}`, {
+    const result = fetch(`http://localhost:3005/like/${postId}`, {
       method: 'POST',
       headers: {
         'authorization': auth.payload,
@@ -40,7 +42,7 @@ function App() {
   }
 
   const dislikePostHandler = (postId, userId) => {
-    const result = fetch(`http://www.thefuture.com:3005/dislike/${postId}`, {
+    const result = fetch(`http://localhost:3005/dislike/${postId}`, {
       method: 'POST',
       headers: {
         'authorization': auth.payload,
@@ -61,16 +63,24 @@ function App() {
   useEffect(() => {
     postService.getAllPosts()
       .then(posts => {
+        setLoading(false);
         setPosts(posts)
       }
       )
   }, [])
 
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
+  const [isOpenFriendsModal, setIsOpenFriendsModal] = useState(false)
+  const openFriendsModal = () => setIsOpenFriendsModal(true)
+  const closeFriendsModal = (event) => {
+    if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('close')) {
+      setIsOpenFriendsModal(false);
+    }
+  }
+  const [isOpenOptionsModal, setIsOpenOptionsModal] = useState(false);
+  const openModal = () => setIsOpenOptionsModal(true);
   const closeModal = (event) => {
     if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('close')) {
-      setIsOpen(false);
+      setIsOpenOptionsModal(false);
     }
   }
 
@@ -193,9 +203,6 @@ function App() {
     }
   };
 
-
-
-
   const postDeleteHandler = (postId) => {
     //TODO delete filltering pravi posledno, dovurshi go
     postService.deletePost(postId).then(response => {
@@ -208,14 +215,15 @@ function App() {
 
   return (
     <>
-      {isOpen && <OptionsModal isOpen={isOpen} closeModal={closeModal} openModal={openModal} profileEditHandler={profileEditHandler}></OptionsModal>}
+      {isOpenFriendsModal && <FriendsModal closeModal={closeFriendsModal}></FriendsModal>}
+      {isOpenOptionsModal && <OptionsModal isOpen={isOpenOptionsModal} closeModal={closeModal} openModal={openModal} profileEditHandler={profileEditHandler}></OptionsModal>}
       <Routes>
-        <Route path="/posts" element={<Home posts={posts} like={like} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} openModal={openModal} />}></Route>
+        <Route path="/posts" element={<Home loading={loading} posts={posts} like={like} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler} openModal={openModal} openFriendsModal={openFriendsModal} />}></Route>
         <Route path="/posts/:postId" element={<Details posts={posts} postDeleteHandler={postDeleteHandler} />}></Route>
         <Route path="/create" element={<RouteGuard><Create postCreateHandler={postCreateHandler}></Create></RouteGuard>}></Route>
         <Route path="/edit/:postId" element={<RouteGuard><Edit postEditHandler={postEditHandler}></Edit></RouteGuard>}></Route>
 
-        <Route path="/profile/:userId" element={<Profile posts={posts} openModal={openModal} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler}> </Profile>}></Route>
+        <Route path="/profile/:userId" element={<Profile posts={posts} openModal={openModal} openFriendsModal={openFriendsModal} likePostHandler={likePostHandler} dislikePostHandler={dislikePostHandler}> </Profile>}></Route>
         <Route path="/login" element={<Login ></Login>}></Route>
         <Route path="/logout" element={<Logout></Logout>}></Route>
 

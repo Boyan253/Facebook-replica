@@ -1,37 +1,35 @@
-import './friendsmodal.css'
+import { useEffect, useState } from 'react';
+import * as userService from '../../../service/userService'
+import './friendsModal.css'
+import { Link } from 'react-router-dom';
 
-export const FriendsModal = ({ user, onClose }) => {
+export const FriendsModal = ({ user, closeModal }) => {
+    const [users, setUsers] = useState([])
+    useEffect(() => {
+        userService.getAllUsers()
+            .then(data => setUsers(data))
 
-    return (<div className="overlay">
-        <div className="backdrop" onClick={onClose} />
-        <div className="modal" >
-            <div className="detail-container">
+    }, [])
 
-                <div className="content">
-                    <div className="image-container">
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt=""
-                            className="image" />
-                    </div>
-                    <div className="user-details">
-                        <p>User Id: <strong></strong></p>
-                        <p>
-                            Full Name:
-                            <strong> </strong>
-                        </p>
-                        <p>Email: <strong></strong></p>
-                        <p>Phone Number: <strong></strong></p>
-                        <p>
-                            Address:
-                            <strong>  </strong>
-                        </p>
+    return (
+        <div className="modalContent">
+            <div className="modal-overlay" onClick={closeModal}>
+                <div className="modal">
 
-                        <p>Created on: <strong>Wednesday, June 28, 2022</strong></p>
-                        <p>Modified on: <strong>Thursday, June 29, 2022</strong></p>
+                    <div className="errorContainer"></div>
+
+                    <div className="content">
+                        <h1>Recommended users</h1>
+
+                        <div className="user-details-friends">
+                            {users.length > 0 ? users.map((u) => <Link key={u._id} to={`/profile/${u._id}`}><p ><img src={u.profilePicture} alt='Nopicture' />{u.email}</p></Link>) : <p>No users</p>}
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>)
+        </div >
+    );
 
 
 

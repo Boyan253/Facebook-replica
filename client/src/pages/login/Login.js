@@ -5,9 +5,9 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { useForm } from 'react-hook-form'
-import socketIO from 'socket.io-client'
 
-const socket = socketIO.connect('https://www.thefuture.com');
+
+
 
 export default function Login() {
   const { userLogin, isAuthenticated } = useContext(AuthContext)
@@ -22,8 +22,15 @@ export default function Login() {
 
 
   const loginOptions = {
-    email: { required: "Email is required" },
+    email: {
+      required: "Email is required",
+      pattern: {
+        value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        message: "Please enter a valid email address"
+      }
+    },
     password: {
+
       required: "Password is required",
       minLength: {
         value: 8,
@@ -53,7 +60,6 @@ export default function Login() {
         }
         localStorage.setItem('userName', email);
 
-        socket.emit('newUser', { email, socketID: socket.id });
         navigate('/posts')
       })
       .catch((err) => {
@@ -86,14 +92,11 @@ export default function Login() {
             <div className="loginRight">
               <div className="loginBox">
                 <input placeholder="Email" className="loginInput" name="email"{...register("email", loginOptions.email)} />
-                <input placeholder="Password" className="loginInput" name="password"{...register("password", loginOptions.password)} />
+                <input placeholder="Password" type="password" className="loginInput" name="password"{...register("password", loginOptions.password)} />
                 <button className="loginButton">Log In</button>
                 <span className="loginForgot">
-
                 </span>
-
                 <Link to={"/register"}><button className="loginRegisterButton">Sign Up</button></Link>
-
               </div>
             </div>
           </div></form>

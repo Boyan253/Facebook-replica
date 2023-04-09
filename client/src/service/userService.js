@@ -1,6 +1,6 @@
 import * as  request from "./requester/requester";
 
-let baseUrl = 'http://www.thefuture.com:3005'
+let baseUrl = 'http://localhost:3005'
 
 
 export async function register(data) {
@@ -41,5 +41,12 @@ export async function editProfile(userId, data, auth) {
         body: JSON.stringify(data)
 
     })
+    return result
+}
+
+
+export async function getAllUsers() {
+    const response = await fetch(`${baseUrl}/users`)
+    const result = response.json()
     return result
 }
