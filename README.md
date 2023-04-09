@@ -28,8 +28,8 @@ To use the chat feature, you'll need to have two users logged in from different 
 
 Note: Make sure not to install the latest versions of the dependencies. Instead, let npm install the versions needed for the project.
 
-Contributing
+**Contributing**
 If you'd like to contribute to the project, feel free to fork the repository and submit a pull request with your changes. Before submitting a pull request, please make sure that your changes are thoroughly tested and documented.
 
-License
+**License**
 This project is licensed under the MIT License. Feel free to use and modify the code as you see fit.
