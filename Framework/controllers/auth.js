@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken');
 const { createJwt, authenticateJwt, isAuthenticated } = require('../middleware/jwt');
 
 
+
+
+
 // router.get('/register', isGuest(), (req, res) => {
 
 //     res.render('register');

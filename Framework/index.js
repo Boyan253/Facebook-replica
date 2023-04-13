@@ -64,7 +64,7 @@ async function start() {
     socketIO.on('connection', (socket) => {
         socket.on('message', async (data) => {
 
-            
+            //Save the message to the database
             const message = new Message({
                 username: data.name,
                 message: data.text
@@ -74,32 +74,23 @@ async function start() {
             socketIO.emit('messageResponse', data);
         });
 
-
+        //Listens when a new user joins the server
         socket.on('newUser', (data) => {
-    
-            const userExists = users.some((user) => user.email === data.email);
-        
-            if (userExists) {
-                //  active users back to the client
-                socketIO.emit('newUserResponse', users);
-            } else {
-                
-                const newUser = { ...data, id: socket.id };
-                users.push(newUser);
-                socketIO.emit('newUserResponse', users);
-            }
-            console.log(users);
-        });
-        
-        
-        socket.on('user-disconnect', (userId) => {
-            console.log(`User with ID ${userId} has disconnected`);
-          
-            users = users.filter((user) => user.id !== userId);
-          
+            //Adds the new user to the list of users
+            users.push(data);
+
             socketIO.emit('newUserResponse', users);
-          });
-          
+        });
+
+        socket.on('user-disconnect', () => {
+            console.log('🔥: A user disconnected');
+
+            users = users.filter((user) => user.socketID !== socket.id);
+            // console.log(users);
+
+            socketIO.emit('newUserResponse', users);
+            socket.disconnect();
+        });
     });
 
     app.get('/messages', async (req, res) => {
