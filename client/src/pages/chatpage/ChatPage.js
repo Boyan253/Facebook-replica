@@ -1,23 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatBar from '../../components/chatbar/ChatBar';
 import ChatBody from '../../components/chatbody/ChatBody';
 import ChatFooter from '../../components/chatfooter/ChatFooter';
 import './chatpage.css'
 import socketIO from 'socket.io-client'
-import { AuthContext } from '../../contexts/AuthContext';
 
 const socket = socketIO.connect('http://localhost:3005');
 const ChatPage = () => {
     const [messages, setMessages] = useState([]);
-    const { auth } = useContext(AuthContext)
+
     useEffect(() => {
         socket.on('messageResponse', (data) => {
-            setMessages((prevMessages) => [...prevMessages, data]);
+          setMessages((prevMessages) => [...prevMessages, data]);
         });
-        socket.emit('newUser', { email: auth.email, socketID: socket.id });
-
-    }, []);
-
+      }, []);
+      
 
 
     // useEffect(() => {
@@ -47,7 +44,6 @@ const ChatPage = () => {
 
 
         }
-        
     };
     return (
         <div className="chat">

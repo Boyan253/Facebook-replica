@@ -13,7 +13,6 @@ import {
 import CloseFriend from "../closeFriend/CloseFriend";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom";
 
 export default function Sidebar({ user }) {
   const { auth } = useContext(AuthContext)
@@ -22,6 +21,7 @@ export default function Sidebar({ user }) {
 
     user = auth
     user.id = auth._id
+
 
   }
 
@@ -48,21 +48,20 @@ export default function Sidebar({ user }) {
         <ul className="sidebarList">
           <li className="sidebarListItem">
             <RssFeed className="sidebarIcon" />
-            <Link to={'/posts'}> <span className="sidebarListItemText">Posts</span></Link>
+            <span className="sidebarListItemText">Posts</span>
           </li>
-          {auth?._id ? <li className="sidebarListItem">
+          <li className="sidebarListItem">
             <Chat className="sidebarIcon" />
-            <Link to={'/chat'}><span className="sidebarListItemText">Chat</span></Link>
-          </li> : ''}
-
+            <span className="sidebarListItemText">Chat</span>
+          </li>
           {/* <li className="sidebarListItem">
             <PlayCircleFilledOutlined className="sidebarIcon" />
             <span className="sidebarListItemText">Videos</span>
-          // </li>
-          // // <li className="sidebarListItem">
-          // //   <Group className="sidebarIcon" />
-          // //   <span className="sidebarListItemText">Groups</span>
-          // // </li>
+          </li>
+          <li className="sidebarListItem">
+            <Group className="sidebarIcon" />
+            <span className="sidebarListItemText">Groups</span>
+          </li>
           <li className="sidebarListItem">
             <Bookmark className="sidebarIcon" />
             <span className="sidebarListItemText">Bookmarks</span>
@@ -79,9 +78,12 @@ export default function Sidebar({ user }) {
             <Event className="sidebarIcon" />
             <span className="sidebarListItemText">Contact Us</span>
           </li>
-           
+          {/* <li className="sidebarListItem">
+            <School className="sidebarIcon" />
+            <span className="sidebarListItemText">Courses</span>
+          </li> */}
         </ul>
-        <button className="sidebarButton">More</button>
+        <button className="sidebarButton">Show More</button>
         <hr className="sidebarHr" />
         <ul className="sidebarFriendList">
           {friends.length > 0 ? friends.map((friend) => (

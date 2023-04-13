@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Topbar({ user, openModal, openFriendsModal }) {
+export default function Topbar({ user, openModal }) {
   const { auth } = useContext(AuthContext)
   return (
     <div className="topbarContainer">
@@ -34,7 +34,7 @@ export default function Topbar({ user, openModal, openFriendsModal }) {
         </div>
         {auth?.payload && (<div className="topbarIcons">
           <div className="topbarIconItem">
-            <Person onClick={openFriendsModal}/>
+            <Person />
             {/* <span className="topbarIconBadge">1</span> */}
           </div>
           <div className="topbarIconItem">

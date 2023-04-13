@@ -43,10 +43,3 @@ export async function editProfile(userId, data, auth) {
     })
     return result
 }
-
-
-export async function getAllUsers() {
-    const response = await fetch(`${baseUrl}/users`)
-    const result = response.json()
-    return result
-}
