@@ -32,10 +32,6 @@ export const AuthProvider = ({ children }) => {
         navigate('/posts')
     }
 
-
-
-
-
     const context = {
         auth, userLogin, userLogout, userRegister, isAuthenticated: !!auth.payload
 

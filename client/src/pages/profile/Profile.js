@@ -7,7 +7,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Profile({ posts, openModal, likePostHandler, dislikePostHandler }) {
+export default function Profile({ posts, openModal, likePostHandler, dislikePostHandler, openFriendsModal }) {
   const navigate = useNavigate()
   const { userId } = useParams()
   const [post, setPost] = useState([])
@@ -78,7 +78,7 @@ export default function Profile({ posts, openModal, likePostHandler, dislikePost
   console.log(user);
   return (
     <>
-      <Topbar user={user.reworkedUser} openModal={openModal} />
+      <Topbar user={user.reworkedUser} openModal={openModal} openFriendsModal={openFriendsModal} />
       <div className="profile">
         <Sidebar user={user.reworkedUser} />
         <div className="profileRight">
