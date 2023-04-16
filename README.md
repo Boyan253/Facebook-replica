@@ -1,5 +1,5 @@
 # react-project-defense - The Future
-100% done
+**100% done**
 <br></br>
 **Social Network - The Future**
 This is a social network web application built using React on the front-end and Node.js on the back-end. It features a follow/unfollow system, real-time chat, posts with comments and like functionality, profile options, and a recommended friends modal.
