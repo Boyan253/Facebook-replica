@@ -3,7 +3,7 @@ require('../models/User')
 
 //TODO change dbname
 const dbname = 'theFuture'
-const connectionString = `mongodb://127.0.0.1:27017/${dbname}`
+const connectionString =`mongodb+srv://bobosa2534:Su18hK5FCW2llkkK@cluster0.lh5vqlc.mongodb.net/?retryWrites=true&w=majority`
 
 module.exports = async (app) => {
     try {
