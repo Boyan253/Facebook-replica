@@ -1,5 +1,5 @@
 import * as  request from "./requester/requester";
-let baseUrl = 'http://localhost:3005/posts/'
+let baseUrl = 'https://react-project-defense-production.up.railway.app/posts'
 
 
 export async function addComment(postId, data) {
