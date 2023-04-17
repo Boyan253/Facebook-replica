@@ -13,10 +13,7 @@ module.exports = (app) => {
     app.engine('.hbs', handlebars({
         extname: '.hbs'
     }).engine)
-app.use(cors({
-  origin: '*'
-}));
-
+    app.use(cors())
     app.set('view engine', '.hbs')
     app.use('/static', express.static('static'))
     app.use(session({

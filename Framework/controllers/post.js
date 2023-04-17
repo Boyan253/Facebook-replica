@@ -83,7 +83,7 @@ router.put('/posts/:postId', async (req, res) => {
 
 //Home
 router.get("/posts", async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+
     try {
 
         let posts = await Post.find({}).sort({ createdAt: 'desc' })
@@ -160,7 +160,7 @@ router.put('/unfollow/:userId', async (req, res) => {
     const userToFollow = req.params.userId
     const { userId } = req.body
     const user = await unfollowUser(userToFollow, userId)
-    console.log(user);
+    
     res.json({ friends: user.friends })
 
 })
@@ -201,7 +201,7 @@ router.post('/dislike/:postId', async (req, res) => {
 //Delete
 
 router.get('/delete/:postId', async (req, res) => {
-
+   
     const post = req.params.postId
     try {
         const deletedPost = await deletePost(post)
@@ -275,6 +275,17 @@ router.put('/profile/:userId', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+//All users
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error getting users' });
     }
 });
 

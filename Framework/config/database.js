@@ -3,7 +3,7 @@ require('../models/User')
 
 //TODO change dbname
 const dbname = 'theFuture'
-const connectionString = `mongodb+srv://bobosa2534:Su18hK5FCW2llkkK@cluster0.lh5vqlc.mongodb.net/?retryWrites=true&w=majority`
+const connectionString = `mongodb://127.0.0.1:27017/${dbname}`
 
 module.exports = async (app) => {
     try {
@@ -19,7 +19,7 @@ module.exports = async (app) => {
             console.error(err);
         })
     } catch (error) {
-        console.error('Error connecting to database')
+        console.error('Error  connecting to database')
         console.error(error);
         process.exit(1)
     }
