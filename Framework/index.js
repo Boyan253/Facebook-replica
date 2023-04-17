@@ -49,7 +49,7 @@ async function start() {
 
     const socketIO = require('socket.io')(http, {
         cors: {
-            origin: "https://react-project-defense-production.up.railway.app"
+            origin: "http://localhost:3000"
         }
     });
 
