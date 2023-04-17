@@ -1,6 +1,6 @@
 import * as  request from "./requester/requester";
 
-let baseUrl = 'http://localhost:3005/'
+let baseUrl = 'https://react-project-defense-production.up.railway.app/'
 
 
 export async function getAllPosts() {
