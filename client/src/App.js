@@ -26,7 +26,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const likePostHandler = (postId, userId) => {
-    const result = fetch(`http://localhost:3005/like/${postId}`, {
+    const result = fetch(`https://future-server.onrender.com/like/${postId}`, {
       method: 'POST',
       headers: {
         'authorization': auth.payload,
@@ -42,7 +42,7 @@ function App() {
   }
 
   const dislikePostHandler = (postId, userId) => {
-    const result = fetch(`http://localhost:3005/dislike/${postId}`, {
+    const result = fetch(`https://future-server.onrender.com/dislike/${postId}`, {
       method: 'POST',
       headers: {
         'authorization': auth.payload,
