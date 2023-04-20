@@ -6,7 +6,7 @@ const ChatBody = ({ messages }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3005');
+    const newSocket = io('https://future-server.onrender.com');
     setSocket(newSocket);
 
     // Clean up function to disconnect socket on unmount
