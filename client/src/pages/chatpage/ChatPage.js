@@ -6,7 +6,7 @@ import './chatpage.css'
 import socketIO from 'socket.io-client'
 import { AuthContext } from '../../contexts/AuthContext';
 
-const socket = socketIO.connect('http://localhost:3005');
+const socket = socketIO.connect('https://future-server.onrender.com');
 const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const { auth } = useContext(AuthContext)
