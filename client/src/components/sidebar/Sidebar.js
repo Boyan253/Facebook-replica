@@ -29,7 +29,7 @@ export default function Sidebar({ user }) {
     const getFriends = async () => {
       try {
         if (user.id) {
-          const response = await fetch(`http://localhost:3005/friends/${user.id}`)
+          const response = await fetch(`https://future-server.onrender.com/friends/${user.id}`)
           const friendList = await response.json()
           setFriends(friendList)
         }
