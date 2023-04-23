@@ -15,7 +15,8 @@ export function Details({ posts, postDeleteHandler }) {
     const [post, setPost] = useState({})
     const { auth } = useContext(AuthContext)
     const { postId } = useParams()
-
+ const [commentText, setCommentText] = useState("");
+    const [comment, setComments] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -34,8 +35,7 @@ export function Details({ posts, postDeleteHandler }) {
         fetchData();
     }, [postId, navigate]);
 
-    const [commentText, setCommentText] = useState("");
-    const [comment, setComments] = useState([]);
+   
 
     console.log(comment);
 
