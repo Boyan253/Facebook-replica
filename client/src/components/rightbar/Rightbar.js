@@ -34,7 +34,7 @@ export default function Rightbar({ profile, user }) {
   const handleFollowClick = async () => {
     try {
       if (followed) {
-        const response = await fetch(`http://localhost:3005/unfollow/${user.id}`, {
+        const response = await fetch(`https://future-server.onrender.com/unfollow/${user.id}`, {
           method: "PUT",
           headers: { "content-type": "application/json", },
           body: JSON.stringify({ userId: auth._id })
