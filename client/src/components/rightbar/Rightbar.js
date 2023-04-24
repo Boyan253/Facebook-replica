@@ -44,7 +44,7 @@ export default function Rightbar({ profile, user }) {
         authData.friends = auth.friends;
         localStorage.setItem('auth', JSON.stringify(authData));
       } else {
-        const response = await fetch(`http://localhost:3005/follow/${user.id}`, {
+        const response = await fetch(`https://future-server.onrender.com/follow/${user.id}`, {
           method: "PUT",
           headers: {
             "content-type": "application/json"
