@@ -89,6 +89,8 @@ router.get("/posts", async (req, res) => {
         let posts = await Post.find({}).sort({ createdAt: 'desc' })
 
         res.status(200).json({ posts });
+        res.header("Access-Control-Allow-Origin", "*"); // allow all origins
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     } catch (error) {
         if (error.kind === 'ObjectId') {
             return res.status(200).json({ posts: [], count: 0 });
@@ -120,22 +122,27 @@ router.get('/posts/:id', async (req, res) => {
 router.get('/friends/:userId', async (req, res) => {
 
     const userId = req.params.userId
+    console.log(userId);
     try {
 
         const user = await User.findById(userId)
+        console.log(user);
         const friends = await Promise.all(
             user.friends.map(friendId => {
+
                 return User.findById(friendId)
             })
         )
         let friendList = []
-
         friends.map(friend => {
             const { _id, profilePicture, username, email } = friend;
             friendList.push({ _id, profilePicture, username, email })
         })
+        console.log(friendList);
+
         res.json(friendList)
     } catch (error) {
+        console.log(error);
         res.status(500).json(error)
     }
 
@@ -160,7 +167,7 @@ router.put('/unfollow/:userId', async (req, res) => {
     const userToFollow = req.params.userId
     const { userId } = req.body
     const user = await unfollowUser(userToFollow, userId)
-    
+
     res.json({ friends: user.friends })
 
 })
@@ -201,7 +208,7 @@ router.post('/dislike/:postId', async (req, res) => {
 //Delete
 
 router.get('/delete/:postId', async (req, res) => {
-   
+
     const post = req.params.postId
     try {
         const deletedPost = await deletePost(post)
@@ -282,6 +289,7 @@ router.put('/profile/:userId', async (req, res) => {
 router.get('/users', async (req, res) => {
     try {
         const users = await User.find({});
+        console.log(users);
         res.status(200).json(users);
     } catch (error) {
         console.error(error);
@@ -360,25 +368,39 @@ router.get('/', async (req, res) => {
 router.get('/users/:userId', async (req, res) => {
 
     const id = req.params.userId
+    console.log(req.body);
+    console.log( await User.findById(id));
     const token = req.headers.authorization;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: 'Invalid profile' });
+    console.log(token);
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            console.log('IT IS INVALID');
+            return res.status(400).json({ error: 'Invalid profile' });
 
-    } else if (!await User.findById(req.params.userId)) {
-        return res.status(400).json({ error: 'Invalid profile' });
+        } if (!await User.findById(req.params.userId)) {
+            console.log('IT IS INVALID in user.findbyid');
 
+            return res.status(400).json({ error: 'Invalid profile' });
+
+        }
+        if (token == 'undefined') {
+            console.log('IT IS INVALID');
+
+            return res.status(401).json({ message: 'Missing authorization token' });
+        }
+        const currentUser = await User.findById(req.params.userId)
+
+        const reworkedUser = {
+            id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends, backgroundImage: currentUser.backgroundImage, city: currentUser.city, country: currentUser.country, relationship: currentUser.relationship
+        }
+
+        // console.log(reworkedUser);
+
+        res.json({ reworkedUser })
+    } catch (error) {
+        console.log(error);
     }
-    if (token == 'undefined') {
-        return res.status(401).json({ message: 'Missing authorization token' });
-    }
-    const currentUser = await User.findById(req.params.userId)
 
-    const reworkedUser = {
-        id: currentUser._id.toString(), email: currentUser.email, username: currentUser.username, profilePicture: currentUser.profilePicture, friends: currentUser.friends, backgroundImage: currentUser.backgroundImage, city: currentUser.city, country: currentUser.country, relationship: currentUser.relationship
-    }
-    console.log(reworkedUser);
-
-    res.json({ reworkedUser })
 
 })
 //Guard
