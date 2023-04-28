@@ -31,7 +31,7 @@ export async function logout(accessToken) {
 }
 
 export async function editProfile(userId, data, auth) {
-    console.log(data, userId);
+   
     const result = await fetch(`${baseUrl}/profile/${userId}`, {
         method: 'PUT',
         headers: {
