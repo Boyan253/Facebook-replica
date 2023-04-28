@@ -131,7 +131,7 @@ function App() {
         userData.image = btoa(binaryData);
 
         await postService.editPost(postId, userData, auth);
-        console.log(userData);
+
         navigate(`/posts/${postId}`);
         window.location.reload()
 
@@ -165,7 +165,7 @@ function App() {
         newAuth.profilePicture = `data:image/png;base64,${userData.image}`;
         localStorage.setItem('auth', JSON.stringify(newAuth));
         await userService.editProfile(auth._id, userData, auth);
-        console.log(userData);
+      
         navigate(`/profile/${auth._id}`);
         window.location.reload();
       };
@@ -187,7 +187,7 @@ function App() {
 
 
         await userService.editProfile(auth._id, userData, auth);
-        console.log(userData);
+     
         navigate(`/profile/${auth._id}`);
         window.location.reload();
       };
@@ -195,9 +195,9 @@ function App() {
     }
 
     if (userData.image.length === 0 && userData.backgroundImage.length === 0) {
-      console.log('going');
+      
       await userService.editProfile(auth._id, userData, auth);
-      console.log(userData);
+      
       navigate(`/profile/${auth._id}`);
       window.location.reload();
     }
