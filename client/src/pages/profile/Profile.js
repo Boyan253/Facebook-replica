@@ -17,7 +17,7 @@ export default function Profile({ posts, openModal, likePostHandler, dislikePost
     let isMounted = true;
     const fetchPost = async () => {
       if (userId === 'undefined') {
-        console.log('is it undefined?');
+       
         return navigate('/login')
       } else {
         const response = await fetch(`https://future-server.onrender.com/profile/${userId}`, {
@@ -75,7 +75,7 @@ export default function Profile({ posts, openModal, likePostHandler, dislikePost
   if (!auth.payload) {
     return <Navigate to={'/login'}></Navigate>
   }
-  console.log(user);
+
   return (
     <>
       <Topbar user={user.reworkedUser} openModal={openModal} openFriendsModal={openFriendsModal} />
