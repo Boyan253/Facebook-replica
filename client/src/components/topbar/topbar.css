@@ -97,3 +97,86 @@
   object-fit: cover;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1024px) {
+  .searchInput {
+    width: 50%;
+  }
+
+  .topbarLink a {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  .topbarIconItem {
+    margin-right: 10px;
+  }
+
+  .topbarImg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .topbarLeft,
+  .topbarCenter,
+  .topbarRight {
+    flex: 1;
+  }
+
+  .searchbar {
+    height: 25px;
+  }
+
+  .searchInput {
+    width: 50%;
+    font-size: 12px;
+  }
+
+  .topbarLink a {
+    font-size: 10px;
+    margin-right: 5px;
+  }
+
+  .topbarIconItem {
+    margin-right: 5px;
+  }
+
+  .topbarImg {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media screen and (max-width: 500px) {
+.topbarContainer {
+height: 40px;
+}
+
+.logo {
+font-size: 20px;
+}
+
+.searchbar {
+height: 20px;
+}
+
+.searchInput {
+width: 60%;
+font-size: 10px;
+}
+
+.topbarLink a {
+font-size: 8px;
+margin-right: 2px;
+}
+
+.topbarIconItem {
+margin-right: 2px;
+}
+
+.topbarImg {
+width: 16px;
+height: 16px;
+}
+}
