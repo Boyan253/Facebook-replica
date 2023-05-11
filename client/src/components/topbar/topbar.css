@@ -1,6 +1,7 @@
 .topbarContainer {
   height: 50px;
   width: 100%;
+   overflow: hidden;
   background: linear-gradient(132deg, rgb(34, 181, 254) 0.00%, rgb(255, 186, 214) 100.00%);
   display: flex;
   align-items: center;
@@ -151,6 +152,7 @@
 @media screen and (max-width: 500px) {
 .topbarContainer {
 height: 40px;
+   overflow: hidden;
 }
 
 .logo {
