@@ -1,11 +1,11 @@
 .topbarContainer {
   height: 50px;
   width: 100%;
-   overflow: hidden;
   background: linear-gradient(132deg, rgb(34, 181, 254) 0.00%, rgb(255, 186, 214) 100.00%);
   display: flex;
   align-items: center;
   position: sticky;
+  overflow: hidden;
   top: 0;
   z-index: 999;
 }
@@ -149,36 +149,39 @@
     height: 20px;
   }
 }
-@media screen and (max-width: 500px) {
-.topbarContainer {
-height: 40px;
-   overflow: hidden;
-}
-
-.logo {
-font-size: 20px;
-}
-
-.searchbar {
-height: 20px;
-}
-
-.searchInput {
-width: 60%;
-font-size: 10px;
-}
-
-.topbarLink a {
-font-size: 8px;
-margin-right: 2px;
-}
-
-.topbarIconItem {
-margin-right: 2px;
-}
-
-.topbarImg {
-width: 16px;
-height: 16px;
-}
-}
+@media screen and (max-width: 560px) {
+  .topbarContainer {
+  height: 40px;
+  overflow: hidden;
+  position: fixed;
+  }
+  
+  .logo {
+  font-size: 20px;
+  margin-left: 10px;
+  }
+  
+  .searchbar {
+  height: 20px;
+  }
+  
+  .searchInput {
+  width: 60%;
+  font-size: 10px;
+  }
+  
+  .topbarLink a {
+  font-size: 8px;
+  margin-right: 2px;
+  }
+  
+  .topbarIconItem {
+  margin-right: 2px;
+  }
+  
+  .topbarImg {
+  width: 16px;
+  height: 16px;
+  }
+  }
+  
