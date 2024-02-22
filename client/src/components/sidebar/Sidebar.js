@@ -67,10 +67,10 @@ export default function Sidebar({ user }) {
         <button className="sidebarButton" onClick={(e) => {
           let btn = e.target
           if (btn.textContent == 'More') {
-            btn.textContent = 'Less'
+            btn.textContent = 'Less';
 
           } else {
-            btn.textContent = 'More'
+            btn.textContent = 'More';
 
           }
           setShowMore(!showMore);
